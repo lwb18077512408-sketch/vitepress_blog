@@ -26,6 +26,8 @@ export default withPwa(
     title: themeConfig.siteMeta.title,
     description: themeConfig.siteMeta.description,
     lang: themeConfig.siteMeta.lang,
+    // GitHub Pages 项目页基础路径
+    base: "/vitepress_blog/",
     // 简洁的 URL
     cleanUrls: true,
     // 最后更新时间戳
@@ -167,7 +169,7 @@ export default withPwa(
         short_name: themeConfig.siteMeta.title,
         description: themeConfig.siteMeta.description,
         display: "standalone",
-        start_url: "/",
+        start_url: "/vitepress_blog/",
         theme_color: "#fff",
         background_color: "#efefef",
         icons: [
