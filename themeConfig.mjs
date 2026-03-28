@@ -3,13 +3,13 @@ export const themeConfig = {
     title: "我的博客",
     description: "记录技术、生活与思考",
     logo: "/images/logo/logo.webp",
-    site: "https://lwb18077512408-sketch.github.io/vitepress_blog",
+    site: "https://www.bbgs.xyz",
     lang: "zh-CN",
     author: {
       name: "博主",
       cover: "/images/logo/logo.webp",
       email: "your-email@example.com",
-      link: "https://your-domain.com",
+      link: "https://www.bbgs.xyz",
     },
   },
 
