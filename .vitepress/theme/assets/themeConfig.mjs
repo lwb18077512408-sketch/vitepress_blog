@@ -32,7 +32,7 @@ export const themeConfig = {
     // https://vitepress.dev/zh/reference/site-config#head
     header: [
       // favicon
-      ["link", { rel: "icon", href: "/favicon.ico" }],
+      ["link", { rel: "icon", href: "public\\images\\logo\\BBG_logo.png" }],
       // RSS
       [
         "link",

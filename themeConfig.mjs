@@ -1,37 +1,66 @@
 export const themeConfig = {
   siteMeta: {
-    title: "我的博客",
+    title: "BBG的主页",
     description: "记录技术、生活与思考",
-    logo: "/images/logo/logo.webp",
+    logo: "/images/logo/BBG_logo.png",// 改变这里就会改变加载图标
     site: "https://www.bbgs.xyz",
     lang: "zh-CN",
     author: {
-      name: "博主",
-      cover: "/images/logo/logo.webp",
+      name: "BBG",
+      cover: "/images/logo/BBG_logo.png",
       email: "your-email@example.com",
       link: "https://www.bbgs.xyz",
     },
   },
 
   icp: "",
-  since: "2026-01-01",
+  since: "2026-03-28",
   postSize: 8,
+
+  // inject 配置 - 迁移到根层以支持自定义覆盖
+  inject: {
+    // 头部注入
+    // https://vitepress.dev/zh/reference/site-config#head
+    header: [
+      // favicon - 使用个人 logo
+      ["link", { rel: "icon", href: "/images/logo/BBG_logo.png" }],
+      // RSS
+      [
+        "link",
+        {
+          rel: "alternate",
+          type: "application/rss+xml",
+          title: "RSS",
+          href: "https://www.bbgs.xyz/rss.xml",
+        },
+      ],
+      // iconfont
+      [
+        "link",
+        {
+          crossorigin: "anonymous",
+          rel: "stylesheet",
+          href: "https://cdn2.codesign.qq.com/icons/g5ZpEgx3z4VO6j2/latest/iconfont.css",
+        },
+      ],
+    ],
+  },
 
   nav: [
     {
       text: "文章",
       items: [
-        { text: "归档", link: "/pages/archives", icon: "article" },
-        { text: "分类", link: "/pages/categories", icon: "folder" },
-        { text: "标签", link: "/pages/tags", icon: "hashtag" },
+        { text: "A1", link: "/pages/archives", icon: "article" },
+        { text: "A2", link: "/pages/categories", icon: "folder" },
+        { text: "A3", link: "/pages/tags", icon: "hashtag" },
       ],
     },
     {
       text: "页面",
       items: [
-        { text: "关于", link: "/pages/about", icon: "contacts" },
-        { text: "项目", link: "/pages/project", icon: "code" },
-        { text: "友链", link: "/pages/link", icon: "people" },
+        { text: "B1", link: "/pages/about", icon: "contacts" },
+        { text: "B2", link: "/pages/project", icon: "code" },
+        { text: "B3", link: "/pages/link", icon: "people" },
       ],
     },
   ],
@@ -50,33 +79,24 @@ export const themeConfig = {
   ],
 
   footer: {
-    social: [
-      {
-        icon: "email",
-        link: "mailto:your-email@example.com",
-      },
-      {
-        icon: "github",
-        link: "https://github.com/yourname",
-      },
-    ],
+    social: [],
     sitemap: [
       {
         text: "博客",
         items: [
-          { text: "最新文章", link: "/" },
-          { text: "文章归档", link: "/pages/archives" },
-          { text: "全部分类", link: "/pages/categories" },
-          { text: "全部标签", link: "/pages/tags" },
+          { text: "XXX", link: "/" },
+          { text: "XXX", link: "/pages/archives" },
+          { text: "XXX", link: "/pages/categories" },
+          { text: "XXX", link: "/pages/tags" },
         ],
       },
       {
         text: "页面",
         items: [
-          { text: "关于", link: "/pages/about" },
-          { text: "项目", link: "/pages/project" },
-          { text: "友链", link: "/pages/link" },
-          { text: "隐私政策", link: "/pages/privacy" },
+          { text: "XXX", link: "/pages/about" },
+          { text: "XXX", link: "/pages/project" },
+          { text: "XXX", link: "/pages/link" },
+          { text: "XXX", link: "/pages/privacy" },
         ],
       },
     ],
