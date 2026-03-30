@@ -2,12 +2,12 @@ export const themeConfig = {
   siteMeta: {
     title: "BBG的主页",
     description: "记录技术、生活与思考",
-    logo: "/images/logo/BBG_logo.png",// 改变这里就会改变加载图标
+    logo: "/images/logo/wait_logo.png",// 改变这里就会改变加载图标
     site: "https://www.bbgs.xyz",
     lang: "zh-CN",
     author: {
       name: "BBG",
-      cover: "/images/logo/BBG_logo.png",
+      cover: "/images/logo/top_logo.svg",
       email: "your-email@example.com",
       link: "https://www.bbgs.xyz",
     },
@@ -17,14 +17,10 @@ export const themeConfig = {
   since: "2026-03-28",
   postSize: 8,
 
-  // inject 配置 - 迁移到根层以支持自定义覆盖
   inject: {
-    // 头部注入
-    // https://vitepress.dev/zh/reference/site-config#head
     header: [
-      // favicon - 使用个人 logo
+      // favicon - 使用个人网页logo
       ["link", { rel: "icon", href: "/images/logo/BBG_logo.png" }],
-      // RSS
       [
         "link",
         {
@@ -34,7 +30,6 @@ export const themeConfig = {
           href: "https://www.bbgs.xyz/rss.xml",
         },
       ],
-      // iconfont
       [
         "link",
         {
@@ -85,23 +80,62 @@ export const themeConfig = {
         text: "博客",
         items: [
           { text: "XXX", link: "/" },
-          { text: "XXX", link: "/pages/archives" },
-          { text: "XXX", link: "/pages/categories" },
-          { text: "XXX", link: "/pages/tags" },
         ],
       },
       {
         text: "页面",
         items: [
           { text: "XXX", link: "/pages/about" },
-          { text: "XXX", link: "/pages/project" },
-          { text: "XXX", link: "/pages/link" },
-          { text: "XXX", link: "/pages/privacy" },
         ],
       },
     ],
   },
-
+  cover: {
+    // 是否开启双栏布局
+    twoColumns: false,
+    // 是否开启封面显示
+    showCover: {
+      // 是否开启封面显示 文章不设置cover封面会显示异常，可以设置下方默认封面
+      enable: false,
+      // 封面布局方式: left | right | both
+      coverLayout: 'left',
+      // 默认封面(随机展示)
+      defaultCover: [
+        'https://example.com/1.avif',
+        'https://example.com/2.avif',
+        'https://example.com/3.avif'
+      ]
+    }
+  },
+  // 侧边栏
+  aside: {
+    // 站点简介
+    hello: {
+      enable: true,
+      text: "你好啊，欢迎来到我的博客！",
+    },
+    // 目录
+    toc: {
+      enable: true,
+    },
+    // 标签
+    tags: {
+      enable: true,
+    },
+    // 倒计时
+    countDown: {
+      enable: true,
+      // 倒计时日期
+      data: {
+        name: "春节",
+        date: "2027-02-07",
+      },
+    },
+    // 站点数据
+    siteData: {
+      enable: true,
+    },
+  },
   comment: {
     enable: false,
     type: "artalk",
@@ -129,6 +163,12 @@ export const themeConfig = {
     enable: false,
     appId: "",
     apiKey: "",
+  },
+
+  github: {
+    owner: "lwb18077512408-sketch", // 请改为你的 GitHub 用户名
+    repo: "bbgs.xyz",               // 请改为你当前博客仓库名
+    pageViewsIssueId: 1               // 你创建的 Issue 编号（如 #1）
   },
 
   rewardData: {

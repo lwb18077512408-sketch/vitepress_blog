@@ -55,8 +55,8 @@ onBeforeUnmount(() => {
   background-color: var(--main-card-background);
   z-index: 9999;
   .logo {
-    width: 100px;
-    height: 100px;
+    width: 256px;
+    height: 256px;
     animation: loading 2s infinite;
   }
   .tip {

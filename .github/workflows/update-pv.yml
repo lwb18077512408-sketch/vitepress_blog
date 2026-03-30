@@ -1,0 +1,53 @@
+name: Update PV from repository dispatch
+
+on:
+  repository_dispatch:
+    types: [update-pv]
+  workflow_dispatch:
+
+jobs:
+  update_pv:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set variables
+        run: |
+          echo "OWNER=${{ github.event.client_payload.owner || 'lwb18077512408-sketch' }}" >> $GITHUB_ENV
+          echo "REPO=${{ github.event.client_payload.repo || 'bbgs.xyz' }}" >> $GITHUB_ENV
+          echo "ISSUE_NUMBER=${{ github.event.client_payload.issue_number || 1 }}" >> $GITHUB_ENV
+          echo "INCREMENT=${{ github.event.client_payload.increment || 1 }}" >> $GITHUB_ENV
+
+      - name: Read existing issue title
+        id: issue
+        run: |
+          issue_json=$(curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" "https://api.github.com/repos/$OWNER/$REPO/issues/$ISSUE_NUMBER")
+          echo "$issue_json" > issue.json
+          current_title=$(echo "$issue_json" | jq -r '.title')
+          echo "current_title=$current_title" >> $GITHUB_OUTPUT
+
+      - name: Parse current PV
+        id: parse
+        run: |
+          if echo "${{ steps.issue.outputs.current_title }}" | grep -qE 'PV: *[0-9]+'; then
+            parsed=$(echo "${{ steps.issue.outputs.current_title }}" | grep -oE 'PV: *[0-9]+' | sed -E 's/PV: *([0-9]+)/\1/')
+          else
+            parsed=0
+          fi
+          echo "current_pv=$parsed" >> $GITHUB_OUTPUT
+
+      - name: Compute new PV
+        id: calc
+        run: |
+          echo "new_pv=$(( ${{ steps.parse.outputs.current_pv }} + $INCREMENT ))" >> $GITHUB_OUTPUT
+
+      - name: Update issue title
+        run: |
+          new_title="PV: ${{ steps.calc.outputs.new_pv }}"
+          echo "Updating issue #$ISSUE_NUMBER to '$new_title'"
+          curl -s -X PATCH \
+            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$OWNER/$REPO/issues/$ISSUE_NUMBER \
+            -d '{"title":"'$new_title'"}'
+
+      - name: Output result
+        run: echo "Updated PV -> ${{ steps.calc.outputs.new_pv }}"

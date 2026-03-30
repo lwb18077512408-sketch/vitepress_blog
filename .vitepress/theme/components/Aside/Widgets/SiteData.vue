@@ -25,30 +25,117 @@
           <i class="iconfont icon-visibility"></i>
           总访问量
         </span>
-        <span class="num" id="busuanzi_value_site_pv">0</span>
+        <span class="num">{{ pageViews }} 次</span>
       </div>
       <div class="data-item">
         <span class="name">
           <i class="iconfont icon-account"></i>
-          总访客数
+          独立访客
         </span>
-        <span class="num" id="busuanzi_value_site_uv">0</span>
+        <span class="num">{{ visitors }} 人</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { loadScript } from "@/utils/commonTools";
+import { ref } from 'vue'
 import { daysFromNow } from "@/utils/helper";
 
 const { theme } = useData();
+const pageViews = ref(0);
+const visitors = ref(0);
+
+// 获取访问统计数据
+async function fetchGitHubStats() {
+  try {
+    // 从 localStorage 识别访客
+    let visitorId = localStorage.getItem('visitor_id');
+    if (!visitorId) {
+      visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('visitor_id', visitorId);
+      visitors.value++;
+    } else {
+      visitors.value = 1; // 这是返回访客
+    }
+
+    // 从 GitHub Issue 获取页面浏览量
+    if (theme.github?.owner && theme.github?.repo && theme.github?.pageViewsIssueId) {
+      const owner = theme.github.owner;
+      const repo = theme.github.repo;
+      const issueId = theme.github.pageViewsIssueId;
+      
+      const response = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/issues/${issueId}`
+      );
+      
+      if (response.ok) {
+        const issue = await response.json();
+        // 从 Issue 标题中获取访问数 (格式: "PV: 123")
+        const match = issue.title.match(/PV:\s*(\d+)/i);
+        if (match) {
+          pageViews.value = parseInt(match[1]);
+        } else {
+          // 如果没有，使用 comments 数作为访问数
+          pageViews.value = issue.comments;
+        }
+      }
+    } else {
+      // 如果未配置，显示本地存储的访问数
+      const localPV = localStorage.getItem('local_pv');
+      pageViews.value = localPV ? parseInt(localPV) : 0;
+      pageViews.value++;
+      localStorage.setItem('local_pv', pageViews.value);
+    }
+  } catch (error) {
+    console.warn('Failed to fetch GitHub stats:', error);
+    // 降级方案：使用本地存储
+    const localPV = localStorage.getItem('local_pv');
+    pageViews.value = localPV ? parseInt(localPV) : 0;
+    pageViews.value++;
+    localStorage.setItem('local_pv', pageViews.value);
+  }
+}
+
+async function triggerPvUpdateDispatch() {
+  if (!theme.github?.owner || !theme.github?.repo || !theme.github?.pageViewsIssueId) {
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${theme.github.owner}/${theme.github.repo}/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json',
+          // 如果你也想把 token 暂时放本地测试，可在 theme.github.clientToken 中配置，正式环境不要这样做
+          ...(theme.github.clientToken ? { Authorization: `token ${theme.github.clientToken}` } : {}),
+        },
+        body: JSON.stringify({
+          event_type: 'update-pv',
+          client_payload: {
+            owner: theme.github.owner,
+            repo: theme.github.repo,
+            issue_number: theme.github.pageViewsIssueId,
+            increment: 1,
+          },
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      console.warn('Dispatch event failed:', response.status, await response.text());
+    }
+  } catch (dispatchError) {
+    console.warn('Dispatch request error:', dispatchError);
+  }
+}
 
 onMounted(() => {
-  loadScript("https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js", {
-    async: true,
-    reload: true,
-  });
+  fetchGitHubStats();
+  triggerPvUpdateDispatch();
 });
 </script>
 
@@ -74,16 +161,6 @@ onMounted(() => {
       .num {
         opacity: 0.8;
         font-size: 15px;
-      }
-      #busuanzi_value_site_pv {
-        &::after {
-          content: " 次";
-        }
-      }
-      #busuanzi_value_site_uv {
-        &::after {
-          content: " 人";
-        }
       }
       &:last-child {
         padding-bottom: 0;

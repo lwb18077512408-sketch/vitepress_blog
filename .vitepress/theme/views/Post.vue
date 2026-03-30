@@ -78,7 +78,7 @@
             </a>
           </div>
           <a
-            href="https://eqnxweimkr5.feishu.cn/share/base/form/shrcnCXCPmxCKKJYI3RKUfefJre"
+            href=" "
             class="report"
             target="_blank"
           >
@@ -236,7 +236,7 @@ onMounted(() => {
   .post-content {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     animation: fade-up 0.6s 0.3s backwards;
     .post-article {
       width: calc(100% - 300px);
@@ -315,7 +315,8 @@ onMounted(() => {
     }
     .main-aside {
       width: 300px;
-      padding-left: 1rem;
+      padding-left: 0;
+      padding-right: 1rem;
     }
     @media (max-width: 1200px) {
       .post-article {

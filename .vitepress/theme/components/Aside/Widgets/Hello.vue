@@ -14,11 +14,8 @@
         <span class="desc">{{ theme.siteMeta.description }}</span>
       </div>
       <div class="link">
-        <a href="https://github.com/imsyy/" target="_blank" class="social-link">
+        <a href="https://github.com/lwb18077512408-sketch" target="_blank" class="social-link">
           <i class="iconfont icon-github"></i>
-        </a>
-        <a href="mailto:one@imsyy.top" target="_blank" class="social-link">
-          <i class="iconfont icon-email"></i>
         </a>
       </div>
     </div>

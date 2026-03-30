@@ -133,14 +133,15 @@ watch(
   .home-content {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     .posts-content {
       width: calc(100% - 300px);
       transition: width 0.3s;
     }
     .main-aside {
       width: 300px;
-      padding-left: 1rem;
+      padding-left: 0;
+      padding-right: 1rem;
     }
     @media (max-width: 1200px) {
       .posts-content {
