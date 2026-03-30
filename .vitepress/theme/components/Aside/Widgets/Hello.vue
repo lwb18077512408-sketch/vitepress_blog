@@ -4,7 +4,7 @@
     <span class="tip" @click="changeHello">{{ helloText }}</span>
     <div class="content">
       <div class="site-logo">
-        <Clock />
+        <img class="static-logo" :src="helloImage" :alt="theme.siteMeta.author.name || 'avatar'" />
       </div>
       <span class="site-desc" v-html="theme.aside.hello.text" />
     </div>
@@ -26,6 +26,7 @@
 import { getGreetings } from "@/utils/helper";
 
 const { site, theme } = useData();
+const helloImage = computed(() => theme.value?.aside?.hello?.image || "/images/logo/BBG.jpg");
 
 // 问候数据
 const helloClick = ref(0);
@@ -127,6 +128,15 @@ onBeforeUnmount(() => {
         transform cubic-bezier(0.69, 0.39, 0, 1.21) 0.3s,
         opacity cubic-bezier(0.69, 0.39, 0, 1.21) 0.3s;
       transform-origin: bottom;
+      .static-logo {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        border-radius: 25px;
+        border: 1px solid var(--main-card-background);
+        box-shadow: 0 8px 50px -4px var(--main-border-shadow);
+      }
     }
     .site-desc {
       display: block;

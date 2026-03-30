@@ -21,7 +21,7 @@ const { frontmatter } = useData();
 .page {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   animation: fade-up 0.6s 0.1s backwards;
   .page-content {
     width: 100%;
@@ -58,7 +58,8 @@ const { frontmatter } = useData();
     }
     .main-aside {
       width: 300px;
-      padding-left: 1rem;
+      padding-left: 0;
+      padding-right: 1rem;
     }
   }
   @media (max-width: 1200px) {

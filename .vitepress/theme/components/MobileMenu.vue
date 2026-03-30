@@ -1,17 +1,17 @@
-<template>
+﻿<template>
   <Teleport to="body">
-    <!-- 移动端菜单 -->
+    <!-- 绉诲姩绔彍鍗?-->
     <Transition name="fade" mode="out-in">
       <div v-show="store.mobileMenuShow" class="mobile-menu">
-        <!-- 背景遮罩 -->
+        <!-- 鑳屾櫙閬僵 -->
         <div class="menu-mask" @click="store.changeShowStatus('mobileMenuShow')" />
         <Transition name="toLeft" mode="out-in">
           <div v-show="store.mobileMenuShow" class="menu-content s-card">
-            <!-- 关闭按钮 -->
+            <!-- 鍏抽棴鎸夐挳 -->
             <div class="close-control" @click="store.changeShowStatus('mobileMenuShow')">
               <i class="iconfont icon-close"></i>
             </div>
-            <!-- 菜单 -->
+            <!-- 鑿滃崟 -->
             <div class="menu-list">
               <div v-for="(item, index) in nav" :key="index" class="menu-item">
                 <span class="link-title"> {{ item.text }}</span>
@@ -29,15 +29,15 @@
               </div>
             </div>
             <hr />
-            <!-- 标签 -->
+            <!-- 鏍囩 -->
             <div class="tags-list menu-item">
-              <span class="link-title"> 标签</span>
+              <span class="link-title"> 鏍囩</span>
               <div class="link-child">
                 <div
                   v-for="(item, tag, index) in tagsData"
                   :key="index"
                   class="link-child-btn"
-                  @click="pageJump(`/pages/tags/${tag}`)"
+                  @click="pageJump(`/portal/tags/${tag}`)"
                 >
                   <span class="name">{{ tag }}</span>
                   <sup class="num">{{ item.count }}</sup>
@@ -58,10 +58,10 @@ const store = mainStore();
 const router = useRouter();
 const { theme } = useData();
 
-// 菜单数据
+// 鑿滃崟鏁版嵁
 const { nav, tagsData } = theme.value;
 
-// 页面跳转
+// 椤甸潰璺宠浆
 const pageJump = (url) => {
   if (!url) return false;
   store.changeShowStatus("mobileMenuShow");

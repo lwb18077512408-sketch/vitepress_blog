@@ -4,17 +4,17 @@ import matter from "gray-matter";
 import fs from "fs-extra";
 
 /**
- * 获取 posts 目录下所有 Markdown 文件的路径
+ * 获取 articles 目录下所有 Markdown 文件的路径
  * @returns {Promise<string[]>} - 文件路径数组
  */
 const getPostMDFilePaths = async () => {
   try {
     // 获取所有 md 文件路径
     let paths = await globby(["**.md"], {
-      ignore: ["node_modules", "pages", ".vitepress", "README.md"],
+      ignore: ["node_modules", "portal", ".vitepress", "README.md"],
     });
-    // 过滤路径，只包括 'posts' 目录下的文件
-    return paths.filter((item) => item.includes("posts/"));
+    // 过滤路径，只包括 'articles' 目录下的文件
+    return paths.filter((item) => item.includes("articles/"));
   } catch (error) {
     console.error("获取文章路径时出错:", error);
     throw error;

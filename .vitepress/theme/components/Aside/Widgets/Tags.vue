@@ -1,4 +1,4 @@
-<!-- 侧边栏 - 标签 -->
+﻿<!-- 侧边栏 - 标签 -->
 <template>
   <div class="tags-cloud s-card">
     <div class="title">
@@ -9,14 +9,14 @@
       <a
         v-for="(item, tag, index) in theme.tagsData"
         :key="index"
-        :href="`/pages/tags/${tag}`"
+        :href="`/portal/tags/${tag}`"
         class="tags"
       >
         <span class="name">{{ tag }}</span>
         <sup class="num">{{ item.count }}</sup>
       </a>
     </div>
-    <a href="/pages/tags" class="more-tags">查看全部</a>
+    <a href="/portal/tags" class="more-tags">查看全部</a>
   </div>
 </template>
 

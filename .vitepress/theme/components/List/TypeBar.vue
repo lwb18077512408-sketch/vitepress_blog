@@ -1,10 +1,10 @@
-<!-- 分类导航条 -->
+﻿<!-- 分类导航栏 -->
 <template>
   <div v-if="type === 'categories'" class="type-bar s-card hover">
     <div class="all-type">
       <a
         v-if="currentTypeName"
-        :href="`/pages/categories/${currentTypeName}`"
+        :href="`/portal/categories/${currentTypeName}`"
         class="type-item choose"
       >
         {{ currentTypeName }}
@@ -13,34 +13,34 @@
       <a
         v-for="(_, key, index) in theme.categoriesData"
         :key="index"
-        :href="`/pages/categories/${key}`"
+        :href="`/portal/categories/${key}`"
         :class="['type-item', { hidden: currentTypeName === key }]"
       >
         {{ key }}
       </a>
     </div>
-    <a href="/pages/categories" class="more-type">
+    <a href="/portal/categories" class="more-type">
       <i class="iconfont icon-arrow-right" />
       更多
     </a>
   </div>
   <div v-else-if="type === 'tags'" class="type-bar s-card hover">
     <div class="all-type">
-      <a v-if="currentTypeName" :href="`/pages/tags/${currentTypeName}`" class="type-item choose">
+      <a v-if="currentTypeName" :href="`/portal/tags/${currentTypeName}`" class="type-item choose">
         {{ currentTypeName }}
         <span class="num">{{ theme.tagsData?.[currentTypeName]?.count || 0 }}</span>
       </a>
       <a
         v-for="(item, key, index) in theme.tagsData"
         :key="index"
-        :href="`/pages/tags/${key}`"
+        :href="`/portal/tags/${key}`"
         :class="['type-item', { hidden: currentTypeName === key }]"
       >
         {{ key }}
         <span class="num">{{ item.count }}</span>
       </a>
     </div>
-    <a href="/pages/tags" class="more-type">
+    <a href="/portal/tags" class="more-type">
       <i class="iconfont icon-arrow-right" />
       更多
     </a>
@@ -50,14 +50,14 @@
 <script setup>
 const { theme, params } = useData();
 const props = defineProps({
-  // 显示类别
+  // 显示类型
   type: {
     type: String,
     default: "categories",
   },
 });
 
-// 获取当前路由路径
+// 获取当前路由参数
 const currentTypeName = computed(() => {
   return params.value?.name || null;
 });

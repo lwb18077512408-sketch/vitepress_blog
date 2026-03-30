@@ -4,25 +4,8 @@
       <div class="nav-all">
         <!-- 导航栏左侧 -->
         <div class="left-nav">
-          <div class="more-menu nav-btn" title="更多内容">
+          <div class="more-menu nav-btn" title="返回首页" @click="router.go('/')">
             <i class="iconfont icon-menu" />
-            <div class="more-card s-card">
-              <div v-for="(item, index) in theme.navMore" :key="index" class="more-item">
-                <span class="more-name">{{ item.name }}</span>
-                <div class="more-list">
-                  <a
-                    v-for="(link, i) in item.list"
-                    :key="i"
-                    :href="link.url"
-                    class="more-link"
-                    target="_blank"
-                  >
-                    <img class="link-icon" :src="link.icon" :alt="link.name" />
-                    <span class="link-name">{{ link.name }}</span>
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
           <div class="site-name" @click="router.go('/')">
             {{ site.title }}
@@ -51,23 +34,7 @@
           </span>
         </div>
         <div class="right-nav">
-          <!-- 开往 -->
-          <a
-            class="menu-btn nav-btn travellings"
-            title="开往-友链接力"
-            href="https://www.travellings.cn/go.html"
-            target="_blank"
-          >
-            <i class="iconfont icon-subway"></i>
-          </a>
-          <!-- 随机文章 -->
-          <div
-            class="menu-btn nav-btn"
-            title="随机前往一篇文章"
-            @click="router.go(shufflePost(theme.postData))"
-          >
-            <i class="iconfont icon-shuffle"></i>
-          </div>
+         
           <!-- 搜索 -->
           <div
             v-if="theme.search.enable"

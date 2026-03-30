@@ -1,42 +1,42 @@
-<template>
-  <!-- 背景图片 -->
+﻿<template>
+  <!-- 鑳屾櫙鍥剧墖 -->
   <Background />
-  <!-- 加载提示 -->
+  <!-- 鍔犺浇鎻愮ず -->
   <Loading />
-  <!-- 中控台 -->
+  <!-- 涓帶鍙?-->
   <Control />
-  <!-- 导航栏 -->
+  <!-- 瀵艰埅鏍?-->
   <Nav />
-  <!-- 主内容 -->
+  <!-- 涓诲唴瀹?-->
   <main :class="['mian-layout', { loading: loadingStatus, 'is-post': isPostPage }]">
     <!-- 404 -->
     <NotFound v-if="page.isNotFound" />
-    <!-- 首页 -->
+    <!-- 棣栭〉 -->
     <Home v-if="frontmatter.layout === 'home'" showHeader />
-    <!-- 页面 -->
+    <!-- 椤甸潰 -->
     <template v-else>
-      <!-- 文章页面 -->
+      <!-- 鏂囩珷椤甸潰 -->
       <Post v-if="isPostPage" />
-      <!-- 普通页面 -->
+      <!-- 鏅€氶〉闈?-->
       <Page v-else-if="!page.isNotFound" />
     </template>
   </main>
-  <!-- 页脚 -->
+  <!-- 椤佃剼 -->
   <FooterLink v-show="!loadingStatus" :showBar="isPostPage && !page.isNotFound" />
   <Footer v-show="!loadingStatus" />
-  <!-- 悬浮菜单 -->
+  <!-- 鎮诞鑿滃崟 -->
   <Teleport to="body">
-    <!-- 左侧菜单 -->
+    <!-- 宸︿晶鑿滃崟 -->
     <div :class="['left-menu', { hidden: footerIsShow }]">
-      <!-- 全局设置 -->
+      <!-- 鍏ㄥ眬璁剧疆 -->
       <Settings />
-      <!-- 全局播放器 -->
+      <!-- 鍏ㄥ眬鎾斁鍣?-->
       <Player />
     </div>
   </Teleport>
-  <!-- 右键菜单 -->
+  <!-- 鍙抽敭鑿滃崟 -->
   <RightMenu ref="rightMenuRef" />
-  <!-- 全局消息 -->
+  <!-- 鍏ㄥ眬娑堟伅 -->
   <Message />
 </template>
 
@@ -51,47 +51,44 @@ const { frontmatter, page, theme } = useData();
 const { loadingStatus, footerIsShow, themeValue, themeType, backgroundType, fontFamily, fontSize } =
   storeToRefs(store);
 
-// 右键菜单
+// 鍙抽敭鑿滃崟
 const rightMenuRef = ref(null);
 
-// 判断是否为文章页面
 const isPostPage = computed(() => {
   const routePath = decodeURIComponent(route.path);
-  return routePath.includes("/posts/");
+  return routePath.includes("/articles/");
 });
 
-// 开启右键菜单
 const openRightMenu = (e) => {
   rightMenuRef.value?.openRightMenu(e);
 };
 
-// 复制时触发
 const copyTip = () => {
   const copiedText = window.getSelection().toString();
-  // 检查文本内容是否不为空
+  // 妫€鏌ユ枃鏈唴瀹规槸鍚︿笉涓虹┖
   if (copiedText.trim().length > 0 && typeof $message !== "undefined") {
-    $message.success("复制成功，在转载时请标注本文地址");
+    $message.success("澶嶅埗鎴愬姛锛屽湪杞浇鏃惰鏍囨敞鏈枃鍦板潃");
   }
 };
 
-// 更改正确主题类别
+// 鏇存敼姝ｇ‘涓婚绫诲埆
 const changeSiteThemeType = () => {
-  // 主题 class
+  // 涓婚 class
   const themeClasses = {
     dark: "dark",
     light: "light",
     auto: "auto",
   };
-  // 必要数据
+  // 蹇呰鏁版嵁
   const htmlElement = document.documentElement;
   console.log("当前模式：", themeType.value);
-  // 清除所有 class
+  // 娓呴櫎鎵€鏈?class
   Object.values(themeClasses).forEach((themeClass) => {
     htmlElement.classList.remove(themeClass);
   });
-  // 添加新的 class
+  // 娣诲姞鏂扮殑 class
   if (themeType.value === "auto") {
-    // 根据当前操作系统颜色方案更改明暗主题
+    // 鏍规嵁褰撳墠鎿嶄綔绯荤粺棰滆壊鏂规鏇存敼鏄庢殫涓婚
     const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const autoThemeClass = systemPrefersDark ? themeClasses.dark : themeClasses.light;
     htmlElement.classList.add(autoThemeClass);
@@ -107,7 +104,7 @@ const changeSiteThemeType = () => {
   }
 };
 
-// 切换系统字体样式
+// 鍒囨崲绯荤粺瀛椾綋鏍峰紡
 const changeSiteFont = () => {
   try {
     const htmlElement = document.documentElement;
@@ -115,11 +112,11 @@ const changeSiteFont = () => {
     htmlElement.classList.add(fontFamily.value);
     htmlElement.style.fontSize = fontSize.value + "px";
   } catch (error) {
-    console.error("切换系统字体样式失败", error);
+    console.error("鍒囨崲绯荤粺瀛椾綋鏍峰紡澶辫触", error);
   }
 };
 
-// 监听设置变化
+// 鐩戝惉璁剧疆鍙樺寲
 watch(
   () => [themeType.value, backgroundType.value],
   () => changeSiteThemeType(),
@@ -131,19 +128,19 @@ watch(
 
 onMounted(() => {
   console.log(frontmatter.value, page.value, theme.value);
-  // 全站置灰
+  // 鍏ㄧ珯缃伆
   specialDayGray();
-  // 更改主题类别
+  // 鏇存敼涓婚绫诲埆
   changeSiteThemeType();
-  // 切换系统字体样式
+  // 鍒囨崲绯荤粺瀛椾綋鏍峰紡
   changeSiteFont();
-  // 滚动监听
+  // 婊氬姩鐩戝惉
   window.addEventListener("scroll", calculateScroll);
-  // 右键监听
+  // 鍙抽敭鐩戝惉
   window.addEventListener("contextmenu", openRightMenu);
-  // 复制监听
+  // 澶嶅埗鐩戝惉
   window.addEventListener("copy", copyTip);
-  // 监听系统颜色
+  // 鐩戝惉绯荤粺棰滆壊
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", changeSiteThemeType);
 });
 
@@ -159,7 +156,7 @@ onBeforeUnmount(() => {
   max-width: 1400px;
   margin: 0 auto;
   padding: 1rem 2rem;
-  // 手动实现加载动画
+  // 鎵嬪姩瀹炵幇鍔犺浇鍔ㄧ敾
   animation: show 0.5s forwards;
   animation-duration: 0.5s;
   display: block;

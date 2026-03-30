@@ -1,4 +1,4 @@
-<!-- 评论 -->
+﻿<!-- 璇勮 -->
 <template>
   <div
     v-if="theme.comment.enable"
@@ -10,11 +10,11 @@
     <div v-if="!fill" class="title">
       <span class="name">
         <i class="iconfont icon-chat"></i>
-        评论
+        璇勮
       </span>
-      <span class="tool" @click="router.go('/pages/privacy')"> 隐私政策 </span>
+      <span class="tool" @click="router.go('/portal/privacy')"> 闅愮鏀跨瓥 </span>
     </div>
-    <!-- 区分评论系统 -->
+    <!-- 鍖哄垎璇勮绯荤粺 -->
     <Artalk v-if="theme.comment.type === 'artalk'" :fill="fill" />
     <Twikoo v-else-if="theme.comment.type === 'twikoo'" :fill="fill" />
   </div>
@@ -32,7 +32,6 @@ const props = defineProps({
 });
 const mainCommentRef = ref(null);
 
-// 滚动至评论
 const scrollToComments = () => {
   if (!mainCommentRef.value) return false;
   const elementRect = mainCommentRef.value.getBoundingClientRect();

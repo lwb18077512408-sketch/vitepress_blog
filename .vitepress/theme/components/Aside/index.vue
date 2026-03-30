@@ -5,12 +5,15 @@
       <Toc v-if="theme.aside.toc.enable && showToc" class="weidgets" />
       <Countdown class="weidgets" />
       <Tags v-if="theme.aside.tags.enable" class="weidgets" />
+      <GitHubContrib v-if="theme.aside.githubContrib?.enable" class="weidgets" />
       <SiteData v-if="theme.aside.siteData.enable" class="weidgets" />
     </div>
   </aside>
 </template>
 
 <script setup>
+import GitHubContrib from "@/components/Aside/Widgets/GitHubContrib.vue";
+
 const { theme } = useData();
 const props = defineProps({
   // 显示目录

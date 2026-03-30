@@ -1,4 +1,4 @@
-<!-- 文章列表 -->
+﻿<!-- 文章列表 -->
 <template>
   <div class="post-lists" :class="{'layout-grid': layoutType === 'twoColumns'}" :style="gridStyle">
     <div
@@ -34,7 +34,7 @@
               v-for="tags in item?.tags"
               :key="tags"
               class="tags-name"
-              @click.stop="router.go(`/pages/tags/${tags}`)"
+              @click.stop="router.go(`/portal/tags/${tags}`)"
             >
               <i class="iconfont icon-hashtag" />
               {{ tags }}
@@ -55,12 +55,11 @@ const store = mainStore();
 const router = useRouter();
 
 const props = defineProps({
-  // 列表数据
+  // 鍒楄〃鏁版嵁
   listData: {
     type: [Array, String],
     default: () => [],
   },
-  // 简洁模式
   simple: {
     type: Boolean,
     default: false,
@@ -69,12 +68,12 @@ const props = defineProps({
 
 const { theme: themeConfig } = useData()
 
-// 计算布局类型
+// 璁＄畻甯冨眬绫诲瀷
 const layoutType = computed(() => 
   themeConfig.value?.cover?.twoColumns ? 'twoColumns' : themeConfig.value?.cover?.showCover?.coverLayout ?? 'left'
 )
 
-// 计算网格样式
+// 璁＄畻缃戞牸鏍峰紡
 const gridStyle = computed(() => 
   layoutType.value === 'twoColumns' ? {
     '--grid-columns': 2,
@@ -82,10 +81,10 @@ const gridStyle = computed(() =>
   } : {}
 )
 
-// 判断是否显示封面
+// 鍒ゆ柇鏄惁鏄剧ず灏侀潰
 const showCover = () => themeConfig.value?.cover?.showCover?.enable
 
-// 获取封面图片 按优先级获取：cover > defaultCover > false
+// 鑾峰彇灏侀潰鍥剧墖 鎸変紭鍏堢骇鑾峰彇锛歝over > defaultCover > false
 const getCover = ({ cover: itemCover }) => {
   const { cover } = themeConfig.value ?? {}
   
@@ -97,14 +96,14 @@ const getCover = ({ cover: itemCover }) => {
     : false
 }
 
-// 前往文章
+// 鍓嶅線鏂囩珷
 const toPost = (path) => {
-  // 记录滚动位置
+  // 璁板綍婊氬姩浣嶇疆
   if (typeof window !== "undefined") {
     const scrollY = window.scrollY;
     store.lastScrollY = scrollY;
   }
-  // 跳转文章
+  // 璺宠浆鏂囩珷
   router.go(path);
 };
 </script>
@@ -275,17 +274,17 @@ const toPost = (path) => {
       }
     }
 
-    // 封面靠左
+    // 灏侀潰闈犲乏
     &.cover-left {
       flex-direction: row;
     }
 
-    // 封面靠右
+    // 灏侀潰闈犲彸
     &.cover-right {
       flex-direction: row-reverse;
     }
 
-    // 交替布局
+    // 浜ゆ浛甯冨眬
     &.cover-both {
       &:nth-child(odd) {
         flex-direction: row;
@@ -295,7 +294,7 @@ const toPost = (path) => {
       }
     }
 
-    // 移动端垂直布局
+    // 绉诲姩绔瀭鐩村竷灞€
     @media (max-width: 768px) {
       &.cover-left,
       &.cover-right,
@@ -305,7 +304,7 @@ const toPost = (path) => {
     }
   }
 
-  // 网格布局
+  // 缃戞牸甯冨眬
   &.layout-grid {
     display: grid;
     grid-template-columns: repeat(var(--grid-columns, 2), 1fr);

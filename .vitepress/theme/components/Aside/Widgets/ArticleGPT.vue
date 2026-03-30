@@ -1,26 +1,26 @@
-<!-- AI 摘要（假） -->
+﻿<!-- AI 鎽樿锛堝亣锛?-->
 <template>
   <div v-if="frontmatter.articleGPT" class="article-gpt s-card">
     <div class="title">
-      <span class="name" @click="router.go('/posts/2024/0218')">
+      <span class="name" @click="router.go('/articles/2024/0218')">
         <i class="iconfont icon-robot"></i>
-        文章摘要
+        鏂囩珷鎽樿
         <i class="iconfont icon-up"></i>
       </span>
       <span :class="['logo', { loading }]" @click="showOther"> FakeGPT </span>
     </div>
     <div class="content s-card">
-      <span class="text">{{ abstractData === "" ? "加载中..." : abstractData }}</span>
+      <span class="text">{{ abstractData === "" ? "鍔犺浇涓?.." : abstractData }}</span>
       <span v-if="loading" class="point">|</span>
     </div>
     <div class="meta">
-      <span class="tip">此内容根据文章生成，并经过人工审核，仅用于文章内容的解释与总结</span>
+      <span class="tip">姝ゅ唴瀹规牴鎹枃绔犵敓鎴愶紝骞剁粡杩囦汉宸ュ鏍革紝浠呯敤浜庢枃绔犲唴瀹圭殑瑙ｉ噴涓庢€荤粨</span>
       <a
         href="https://eqnxweimkr5.feishu.cn/share/base/form/shrcnCXCPmxCKKJYI3RKUfefJre"
         class="report"
         target="_blank"
       >
-        投诉
+        鎶曡瘔
       </a>
     </div>
   </div>
@@ -30,21 +30,21 @@
 const { frontmatter } = useData();
 const router = useRouter();
 
-// 摘要数据
+// 鎽樿鏁版嵁
 const loading = ref(true);
 const waitTimeOut = ref(null);
 const abstractData = ref("");
 const showIndex = ref(0);
 const showType = ref(false);
 
-// 输出摘要
+// 杈撳嚭鎽樿
 const typeWriter = (text = null) => {
   try {
     const data = text || frontmatter.value.articleGPT;
     if (!data) return false;
     if (showIndex.value < data.length) {
       abstractData.value += data.charAt(showIndex.value++);
-      // 生成字符延迟
+      // 鐢熸垚瀛楃寤惰繜
       const delay = Math.random() * (150 - 30) + 30;
       setTimeout(() => {
         typeWriter(text);
@@ -56,11 +56,10 @@ const typeWriter = (text = null) => {
     loading.value = false;
     abstractData.value = "摘要生成失败";
     $message.error("摘要生成失败，请重试");
-    console.error("摘要生成失败：", error);
+    console.error("摘要生成失败:", error);
   }
 };
 
-// 初始化摘要
 const initAbstract = () => {
   waitTimeOut.value = setTimeout(
     () => {
@@ -70,11 +69,11 @@ const initAbstract = () => {
   );
 };
 
-// 输出摘要介绍
+// 杈撳嚭鎽樿浠嬬粛
 const showOther = () => {
   if (loading.value) return false;
   const text =
-    "我是無名开发的摘要生成助理 FakeGPT，如你所见，这是一个假的 GPT，所有文本皆源于本地书写的内容。我在这里只负责显示，并仿照 GPT 的形式输出，如果你像我一样囊中羞涩，你也可以像我这样做，当然，你也可以使用 Tianli 开发的 TianliGPT 来更简单地实现真正的 AI 摘要。";
+    "我是 FakeGPT，一个用于展示文章摘要效果的本地组件。当前页面内容由站点作者编写，我只负责以打字机形式展示。";
   showIndex.value = 0;
   loading.value = true;
   abstractData.value = "";

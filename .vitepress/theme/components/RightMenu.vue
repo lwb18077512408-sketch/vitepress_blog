@@ -43,12 +43,12 @@
             <div
               v-if="clickedType === 'normal'"
               class="btn"
-              @click="router.go('/pages/categories')"
+              @click="router.go('/portal/categories')"
             >
               <i class="iconfont icon-folder"></i>
               <span class="name">全部分类</span>
             </div>
-            <div v-if="clickedType === 'normal'" class="btn" @click="router.go('/pages/tags')">
+            <div v-if="clickedType === 'normal'" class="btn" @click="router.go('/portal/tags')">
               <i class="iconfont icon-hashtag"></i>
               <span class="name">全部标签</span>
             </div>
@@ -141,12 +141,12 @@
           <!-- 通用菜单 -->
           <div class="all-menu general">
             <!-- 版权协议 -->
-            <div class="btn" @click="router.go('/pages/cc')">
+            <div class="btn" @click="router.go('/portal/cc')">
               <i class="iconfont icon-accessible"></i>
               <span class="name">版权协议</span>
             </div>
             <!-- 隐私政策 -->
-            <div class="btn" @click="router.go('/pages/privacy')">
+            <div class="btn" @click="router.go('/portal/privacy')">
               <i class="iconfont icon-privacy"></i>
               <span class="name">隐私政策</span>
             </div>

@@ -1,4 +1,4 @@
-<!-- 文章页面 -->
+﻿<!-- 鏂囩珷椤甸潰 -->
 <template>
   <div v-if="postMetaData" class="post">
     <div class="post-meta">
@@ -7,7 +7,7 @@
           <a
             v-for="(item, index) in postMetaData.categories"
             :key="index"
-            :href="`/pages/categories/${item}`"
+            :href="`/portal/categories/${item}`"
             class="cat-item"
           >
             <i class="iconfont icon-folder" />
@@ -18,7 +18,7 @@
           <a
             v-for="(item, index) in postMetaData.tags"
             :key="index"
-            :href="`/pages/tags/${item}`"
+            :href="`/portal/tags/${item}`"
             class="tag-item"
           >
             <i class="iconfont icon-hashtag" />
@@ -38,12 +38,12 @@
           <i class="iconfont icon-time" />
           {{ formatTimestamp(page?.lastUpdated || postMetaData.lastModified) }}
         </span>
-        <!-- 热度 -->
+        <!-- 鐑害 -->
         <span class="hot meta">
           <i class="iconfont icon-fire" />
           <span id="twikoo_visitors" class="artalk-pv-count">0</span>
         </span>
-        <!-- 评论数 -->
+        <!-- 璇勮鏁?-->
         <span class="chat meta hover" @click="commentRef?.scrollToComments">
           <i class="iconfont icon-chat" />
           <span id="twikoo_comments" class="artalk-comment-count">0</span>
@@ -52,25 +52,25 @@
     </div>
     <div class="post-content">
       <article class="post-article s-card">
-        <!-- 过期提醒 -->
+        <!-- 杩囨湡鎻愰啋 -->
         <div class="expired s-card" v-if="postMetaData?.expired >= 180">
-          本文发表于 <strong>{{ postMetaData?.expired }}</strong> 天前，其中的信息可能已经事过境迁
+          鏈枃鍙戣〃浜?<strong>{{ postMetaData?.expired }}</strong> 澶╁墠锛屽叾涓殑淇℃伅鍙兘宸茬粡浜嬭繃澧冭縼
         </div>
-        <!-- AI 摘要 -->
+        <!-- AI 鎽樿 -->
         <ArticleGPT />
-        <!-- 文章内容 -->
+        <!-- 鏂囩珷鍐呭 -->
         <Content id="page-content" class="markdown-main-style" />
-        <!-- 参考资料 -->
+        <!-- 鍙傝€冭祫鏂?-->
         <References />
-        <!-- 版权 -->
+        <!-- 鐗堟潈 -->
         <Copyright v-if="frontmatter.copyright !== false" :postData="postMetaData" />
-        <!-- 其他信息 -->
+        <!-- 鍏朵粬淇℃伅 -->
         <div class="other-meta">
           <div class="all-tags">
             <a
               v-for="(item, index) in postMetaData.tags"
               :key="index"
-              :href="`/pages/tags/${item}`"
+              :href="`/portal/tags/${item}`"
               class="tag-item"
             >
               <i class="iconfont icon-hashtag" />
@@ -78,7 +78,7 @@
             </a>
           </div>
           <a
-            href=" "
+            href="https://eqnxweimkr5.feishu.cn/share/base/form/shrcnCXCPmxCKKJYI3RKUfefJre"
             class="report"
             target="_blank"
           >
@@ -87,11 +87,11 @@
           </a>
         </div>
         <RewardBtn />
-        <!-- 下一篇 -->
+        <!-- 涓嬩竴绡?-->
         <NextPost />
-        <!-- 相关文章 -->
+        <!-- 鐩稿叧鏂囩珷 -->
         <RelatedPost />
-        <!-- 评论 -->
+        <!-- 璇勮 -->
         <Comments ref="commentRef" />
       </article>
       <Aside showToc />
@@ -106,10 +106,10 @@ import initFancybox from "@/utils/initFancybox";
 
 const { page, theme, frontmatter } = useData();
 
-// 评论元素
+// 璇勮鍏冪礌
 const commentRef = ref(null);
 
-// 获取对应文章数据
+// 鑾峰彇瀵瑰簲鏂囩珷鏁版嵁
 const postMetaData = computed(() => {
   const postId = generateId(page.value.relativePath);
   return theme.value.postData.find((item) => item.id === postId);

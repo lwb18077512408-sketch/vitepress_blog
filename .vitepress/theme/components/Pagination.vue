@@ -1,4 +1,4 @@
-<!-- 分页 -->
+﻿<!-- 鍒嗛〉 -->
 <template>
   <div v-if="total > 0" class="pagination">
     <div
@@ -6,24 +6,24 @@
       class="page-item prev"
       @click="
         jumpPage(
-          currentPage === 2 ? `${routePath}` : `${routePath}/page/${currentPage - 1}`,
+          currentPage === 2 ? `${routePath}` : `${routePath}/pagination/${currentPage - 1}`,
           currentPage === 2 ? 1 : currentPage - 1,
         )
       "
     >
       <i class="iconfont icon-page-right" />
-      <span class="page-text">上页</span>
+      <span class="page-text">涓婇〉</span>
     </div>
     <div class="page-number">
       <div
         v-for="(item, index) in pageNumber"
         :key="index"
         :class="[item === '...' ? 'point' : 'page-item', { choose: item === currentPage }]"
-        @click="jumpPage(item === 1 ? `${routePath}` : `${routePath}/page/${item}`, item)"
+        @click="jumpPage(item === 1 ? `${routePath}` : `${routePath}/pagination/${item}`, item)"
       >
         <span class="page-num">{{ item }}</span>
       </div>
-      <!-- 快速跳转 -->
+      <!-- 蹇€熻烦杞?-->
       <div :class="['fast-jump', { focus: inputFocus }]" title="快速跳转">
         <input
           v-model.number="jumpInput"
@@ -40,9 +40,9 @@
     <div
       v-if="currentPage * limit < total"
       class="page-item next"
-      @click="jumpPage(`${routePath}/page/${currentPage + 1}`, currentPage + 1)"
+      @click="jumpPage(`${routePath}/pagination/${currentPage + 1}`, currentPage + 1)"
     >
-      <span class="page-text">下页</span>
+      <span class="page-text">涓嬮〉</span>
       <i class="iconfont icon-page-right" />
     </div>
   </div>
@@ -51,65 +51,63 @@
 <script setup>
 const router = useRouter();
 
-// 分页数据
+// 鍒嗛〉鏁版嵁
 const props = defineProps({
-  // 总数
+  // 鎬绘暟
   total: {
     type: Number,
     default: 0,
   },
-  // 当前页数
+  // 褰撳墠椤垫暟
   page: {
     type: Number,
     default: 1,
   },
-  // 每页显示数量
+  // 姣忛〉鏄剧ず鏁伴噺
   limit: {
     type: Number,
     default: 8,
   },
-  // 跳转目录
+  // 璺宠浆鐩綍
   routePath: {
     type: String,
     default: "",
   },
-  // 使用参数
+  // 浣跨敤鍙傛暟
   useParams: {
     type: Boolean,
     default: false,
   },
 });
 
-// 快速跳转数据
 const jumpInput = ref(null);
 const inputFocus = ref(false);
 
-// 页数数据
+// 椤垫暟鏁版嵁
 const currentPage = ref(props.page);
 const totalPages = computed(() => Math.ceil(props.total / props.limit));
 
-// 分页指示器数据
 const pageNumber = computed(() => {
   let pages = [];
   const current = currentPage.value;
   const total = totalPages.value;
-  const wingSize = 2; // 当前页前后要显示的页码数
+  const wingSize = 2; // 褰撳墠椤靛墠鍚庤鏄剧ず鐨勯〉鐮佹暟
   let startPage = Math.max(current - wingSize, 2);
   let endPage = Math.min(current + wingSize, total - 1);
   // 总是显示第一页
   pages.push(1);
-  // 当 startPage > 2 时，前面需要显示省略号
+  // 褰?startPage > 2 鏃讹紝鍓嶉潰闇€瑕佹樉绀虹渷鐣ュ彿
   if (startPage > 2) {
     pages.push("...");
   } else {
-    // 如果 startPage 是 2，不需要省略号，直接显示第二页
+    // 濡傛灉 startPage 鏄?2锛屼笉闇€瑕佺渷鐣ュ彿锛岀洿鎺ユ樉绀虹浜岄〉
     startPage = 2;
   }
   // 显示中间范围的页码
   for (let i = startPage; i <= endPage; i++) {
     pages.push(i);
   }
-  // 当 endPage < totalPages-1 时，后面需要显示省略号
+  // 褰?endPage < totalPages-1 鏃讹紝鍚庨潰闇€瑕佹樉绀虹渷鐣ュ彿
   if (endPage < total - 1) {
     pages.push("...");
   } else {
@@ -121,7 +119,6 @@ const pageNumber = computed(() => {
   return pages;
 });
 
-// 检查输入
 const validateInput = () => {
   const numericValue = Number(jumpInput.value);
   if (!Number.isInteger(numericValue) || numericValue < 1) {
@@ -133,9 +130,9 @@ const validateInput = () => {
   }
 };
 
-// 跳转页面
+// 璺宠浆椤甸潰
 const jumpPage = (url, page) => {
-  // 使用参数跳转
+  // 浣跨敤鍙傛暟璺宠浆
   if (props.useParams) {
     if (page === 1) {
       router.go(`${props.routePath}`);
@@ -143,23 +140,21 @@ const jumpPage = (url, page) => {
       router.go(`${props.routePath}?page=${page}`);
     }
   }
-  // 正常跳转
+  // 姝ｅ父璺宠浆
   else {
     router.go(url);
   }
 };
 
-// 快速跳转
 const fastJump = () => {
   inputFocus.value = false;
   if (!jumpInput.value) return false;
   jumpPage(
-    jumpInput.value === 1 ? `${props.routePath}` : `${props.routePath}/page/${jumpInput.value}`,
+    jumpInput.value === 1 ? `${props.routePath}` : `${props.routePath}/pagination/${jumpInput.value}`,
     jumpInput.value,
   );
 };
 
-// 检查当前路径参数
 const checkCurrentPage = () => {
   const params = new URLSearchParams(window.location.search);
   const page = params.get("page");

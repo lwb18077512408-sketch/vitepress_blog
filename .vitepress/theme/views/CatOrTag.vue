@@ -1,4 +1,4 @@
-<!-- 分类 -->
+﻿<!-- 分类/标签页 -->
 <template>
   <div class="cat-or-tag">
     <div class="title">
@@ -14,7 +14,7 @@
       <a
         v-for="(item, key, index) in theme.categoriesData"
         :key="index"
-        :href="`/pages/categories/${key}`"
+        :href="`/portal/categories/${key}`"
         class="type-item s-card"
       >
         <i class="iconfont icon-folder" />
@@ -26,7 +26,7 @@
       <a
         v-for="(item, key, index) in theme.tagsData"
         :key="index"
-        :href="`/pages/tags/${key}`"
+        :href="`/portal/tags/${key}`"
         class="type-item s-card"
       >
         <i class="iconfont icon-hashtag" />

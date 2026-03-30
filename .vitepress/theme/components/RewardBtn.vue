@@ -1,21 +1,21 @@
-<!-- 打赏按钮 -->
+﻿<!-- 鎵撹祻鎸夐挳 -->
 <template>
   <div v-if="rewardData.enable" class="reward">
     <div class="reward-btn" @click="rewardShow = true">
       <i class="iconfont icon-reward" />
-      <span class="text">赞赏博主</span>
+      <span class="text">璧炶祻鍗氫富</span>
     </div>
-    <!-- 设置面板 -->
+    <!-- 璁剧疆闈㈡澘 -->
     <Modal
       :show="rewardShow"
       :maxWidth="430"
-      title="赞赏博主"
+      title="璧炶祻鍗氫富"
       titleIcon="reward"
       @mask-click="rewardShow = false"
       @modal-close="rewardShow = false"
     >
       <div class="reward-card">
-        <span class="thank">🙏 感谢您赐予我前进的力量</span>
+        <span class="thank">感谢您的支持</span>
         <div class="qr">
           <a v-if="rewardData?.wechat" :href="rewardData.wechat" class="qr-img" target="_blank">
             <img v-if="rewardData?.wechat" :src="rewardData.wechat" alt="微信" />
@@ -35,7 +35,7 @@
         <div v-if="showJump" class="all-list s-card hover" @click="toRewardList">
           <span class="title">全部赞赏者名单</span>
           <span class="tip">
-            赞赏金额将全部用于开源项目维护，以及服务器、域名及各类云服务的开销
+            赞赏金额将全部用于开源项目维护，以及服务器、域名和各类云服务开销
           </span>
         </div>
       </div>
@@ -55,13 +55,12 @@ const props = defineProps({
   },
 });
 
-// 赞赏显示
+// 璧炶祻鏄剧ず
 const rewardShow = ref(false);
 
-// 跳转至赞赏名单
 const toRewardList = () => {
   rewardShow.value = false;
-  router.go("/pages/thanks");
+  router.go("/portal/thanks");
 };
 </script>
 
