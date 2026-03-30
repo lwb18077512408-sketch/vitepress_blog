@@ -161,6 +161,7 @@ export const themeConfig = {
     owner: "lwb18077512408-sketch",
     repo: "bbgs.xyz",
     pageViewsIssueId: 1,
+    clientToken: "",
   },
 
   rewardData: {
