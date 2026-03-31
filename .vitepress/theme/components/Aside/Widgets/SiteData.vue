@@ -103,30 +103,41 @@ async function triggerPvUpdateDispatch() {
   }
 
   try {
+    const payload = {
+      event_type: 'update-pv',
+      client_payload: {
+        owner: theme.github.owner,
+        repo: theme.github.repo,
+        issue_number: theme.github.pageViewsIssueId,
+        increment: 1,
+      },
+    };
+
+    const proxyUrl = theme.github?.dispatchProxy?.trim();
+    const useGitHubApi = !proxyUrl;
+    const endpoint = useGitHubApi
+      ? `https://api.github.com/repos/${theme.github.owner}/${theme.github.repo}/dispatches`
+      : proxyUrl;
+
     const response = await fetch(
-      `https://api.github.com/repos/${theme.github.owner}/${theme.github.repo}/dispatches`,
+      endpoint,
       {
         method: 'POST',
         headers: {
           'Accept': 'application/vnd.github+json',
           'Content-Type': 'application/json',
-          // 如果你也想把 token 暂时放本地测试，可在 theme.github.clientToken 中配置，正式环境不要这样做
-          ...(theme.github.clientToken ? { Authorization: `token ${theme.github.clientToken}` } : {}),
+          ...(useGitHubApi ? { 'X-GitHub-Api-Version': '2022-11-28' } : {}),
+          // 仅在直连 GitHub API 且你手动配置了 token 时使用。
+          ...(useGitHubApi && theme.github.clientToken
+            ? { Authorization: `Bearer ${theme.github.clientToken}` }
+            : {}),
         },
-        body: JSON.stringify({
-          event_type: 'update-pv',
-          client_payload: {
-            owner: theme.github.owner,
-            repo: theme.github.repo,
-            issue_number: theme.github.pageViewsIssueId,
-            increment: 1,
-          },
-        }),
+        body: JSON.stringify(payload),
       },
     );
 
     if (!response.ok) {
-      console.warn('Dispatch event failed:', response.status, await response.text());
+      console.warn('Dispatch event failed:', response.status, await response.text(), 'endpoint:', endpoint);
     }
   } catch (dispatchError) {
     console.warn('Dispatch request error:', dispatchError);

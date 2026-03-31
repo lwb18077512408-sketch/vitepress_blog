@@ -159,8 +159,12 @@ export const themeConfig = {
 
   github: {
     owner: "lwb18077512408-sketch",
-    repo: "bbgs.xyz",
+    repo: "vitepress_blog",
     pageViewsIssueId: 1,
+    // Recommended on Vercel: deploy api/pv-dispatch.js in the same project and use /api/pv-dispatch.
+    // Example: https://your-domain.com/api/pv-dispatch
+    dispatchProxy: "https://vitepress-blog-xi.vercel.app/api/pv-dispatch",
+    // Optional: local temporary testing only. Never commit a real token.
     clientToken: "",
   },
 
