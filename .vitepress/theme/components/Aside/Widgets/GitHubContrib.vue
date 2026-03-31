@@ -241,27 +241,27 @@ watch(defaultMode, (value) => {
   .cell {
     aspect-ratio: 1 / 1;
     border-radius: 3px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--main-card-border);
   }
 
   .cell.level-1,
   .legend-cell.level-1 {
-    background: rgba(223, 172, 70, 0.35);
+    background: color-mix(in srgb, var(--main-color) 35%, transparent);
   }
 
   .cell.level-2,
   .legend-cell.level-2 {
-    background: rgba(223, 172, 70, 0.5);
+    background: color-mix(in srgb, var(--main-color) 55%, transparent);
   }
 
   .cell.level-3,
   .legend-cell.level-3 {
-    background: rgba(223, 172, 70, 0.7);
+    background: color-mix(in srgb, var(--main-color) 75%, transparent);
   }
 
   .cell.level-4,
   .legend-cell.level-4 {
-    background: rgba(223, 172, 70, 0.95);
+    background: color-mix(in srgb, var(--main-color) 95%, transparent);
   }
 
   .meta {

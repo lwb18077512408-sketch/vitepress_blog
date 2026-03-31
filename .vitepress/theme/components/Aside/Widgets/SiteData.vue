@@ -46,19 +46,29 @@ const { theme } = useData();
 const pageViews = ref(0);
 const visitors = ref(0);
 
+function createVisitorId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return `uv_${crypto.randomUUID()}`;
+  }
+
+  return `uv_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+}
+
+function getOrCreateVisitorId() {
+  const storageKey = 'visitor_id';
+  let visitorId = localStorage.getItem(storageKey);
+
+  if (!visitorId) {
+    visitorId = createVisitorId();
+    localStorage.setItem(storageKey, visitorId);
+  }
+
+  return visitorId;
+}
+
 // 获取访问统计数据
 async function fetchGitHubStats() {
   try {
-    // 从 localStorage 识别访客
-    let visitorId = localStorage.getItem('visitor_id');
-    if (!visitorId) {
-      visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('visitor_id', visitorId);
-      visitors.value++;
-    } else {
-      visitors.value = 1; // 这是返回访客
-    }
-
     // 从 GitHub Issue 获取页面浏览量
     if (theme.value.github?.owner && theme.value.github?.repo && theme.value.github?.pageViewsIssueId) {
       const owner = theme.value.github.owner;
@@ -103,8 +113,10 @@ async function triggerPvUpdateDispatch() {
   }
 
   try {
+    const visitorId = getOrCreateVisitorId();
     const payload = {
       event_type: 'update-pv',
+      visitor_id: visitorId,
       client_payload: {
         owner: theme.value.github.owner,
         repo: theme.value.github.repo,
@@ -136,10 +148,19 @@ async function triggerPvUpdateDispatch() {
       },
     );
 
+    const result = await response.json().catch(() => null);
+
+    if (result?.uv?.enabled && Number.isFinite(result.uv.total)) {
+      visitors.value = result.uv.total;
+    } else {
+      visitors.value = 1;
+    }
+
     if (!response.ok) {
-      console.warn('Dispatch event failed:', response.status, await response.text(), 'endpoint:', endpoint);
+      console.warn('Dispatch event failed:', response.status, result, 'endpoint:', endpoint);
     }
   } catch (dispatchError) {
+    visitors.value = 1;
     console.warn('Dispatch request error:', dispatchError);
   }
 }
