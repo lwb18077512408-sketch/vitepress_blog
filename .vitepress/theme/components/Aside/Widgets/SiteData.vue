@@ -60,10 +60,10 @@ async function fetchGitHubStats() {
     }
 
     // 从 GitHub Issue 获取页面浏览量
-    if (theme.github?.owner && theme.github?.repo && theme.github?.pageViewsIssueId) {
-      const owner = theme.github.owner;
-      const repo = theme.github.repo;
-      const issueId = theme.github.pageViewsIssueId;
+    if (theme.value.github?.owner && theme.value.github?.repo && theme.value.github?.pageViewsIssueId) {
+      const owner = theme.value.github.owner;
+      const repo = theme.value.github.repo;
+      const issueId = theme.value.github.pageViewsIssueId;
       
       const response = await fetch(
         `https://api.github.com/repos/${owner}/${repo}/issues/${issueId}`
@@ -98,7 +98,7 @@ async function fetchGitHubStats() {
 }
 
 async function triggerPvUpdateDispatch() {
-  if (!theme.github?.owner || !theme.github?.repo || !theme.github?.pageViewsIssueId) {
+  if (!theme.value.github?.owner || !theme.value.github?.repo || !theme.value.github?.pageViewsIssueId) {
     return;
   }
 
@@ -106,17 +106,17 @@ async function triggerPvUpdateDispatch() {
     const payload = {
       event_type: 'update-pv',
       client_payload: {
-        owner: theme.github.owner,
-        repo: theme.github.repo,
-        issue_number: theme.github.pageViewsIssueId,
+        owner: theme.value.github.owner,
+        repo: theme.value.github.repo,
+        issue_number: theme.value.github.pageViewsIssueId,
         increment: 1,
       },
     };
 
-    const proxyUrl = theme.github?.dispatchProxy?.trim();
+    const proxyUrl = theme.value.github?.dispatchProxy?.trim();
     const useGitHubApi = !proxyUrl;
     const endpoint = useGitHubApi
-      ? `https://api.github.com/repos/${theme.github.owner}/${theme.github.repo}/dispatches`
+      ? `https://api.github.com/repos/${theme.value.github.owner}/${theme.value.github.repo}/dispatches`
       : proxyUrl;
 
     const response = await fetch(
@@ -128,8 +128,8 @@ async function triggerPvUpdateDispatch() {
           'Content-Type': 'application/json',
           ...(useGitHubApi ? { 'X-GitHub-Api-Version': '2022-11-28' } : {}),
           // 仅在直连 GitHub API 且你手动配置了 token 时使用。
-          ...(useGitHubApi && theme.github.clientToken
-            ? { Authorization: `Bearer ${theme.github.clientToken}` }
+          ...(useGitHubApi && theme.value.github.clientToken
+            ? { Authorization: `Bearer ${theme.value.github.clientToken}` }
             : {}),
         },
         body: JSON.stringify(payload),
