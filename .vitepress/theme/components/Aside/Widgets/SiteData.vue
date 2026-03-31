@@ -23,14 +23,14 @@
       <div class="data-item">
         <span class="name">
           <i class="iconfont icon-visibility"></i>
-          总访问量
+          访问量
         </span>
         <span class="num">{{ pageViews }} 次</span>
       </div>
       <div class="data-item">
         <span class="name">
           <i class="iconfont icon-account"></i>
-          独立访客
+          访客量
         </span>
         <span class="num">{{ visitors }} 人</span>
       </div>
