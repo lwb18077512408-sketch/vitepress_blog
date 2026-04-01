@@ -29,7 +29,7 @@
               >
                 <p class="title" v-html="item.title" />
                 <p v-if="item?.anchor" class="anchor" v-html="item.anchor" />
-                <p v-if="item?.content" class="content s-card" v-html="item.content" />
+                <p v-if="item?.content" class="content s-card" v-text="item.content" />
               </div>
             </div>
             <div v-else class="no-result">
@@ -70,6 +70,19 @@ const searchClient = liteClient(appId, apiKey);
 // 是否具有搜索词
 const hasSearchValue = ref(false);
 
+const stripHtml = (value = "") => {
+  return String(value)
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
+const buildExcerpt = (value = "", maxLength = 120) => {
+  const text = stripHtml(value);
+  if (!text) return "";
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};
+
 // 搜索变化
 const searchChange = ({ uiState, setUiState }) => {
   const searchData = Object.values(uiState);
@@ -99,8 +112,10 @@ const formatSearchData = (data) => {
       search.anchor ||
       search._highlightResult?.hierarchy?.[search.type]?.value ||
       "";
-    const content =
-      search._highlightResult?.content?.value || search.content || search.description || "";
+    const content = buildExcerpt(
+      search.description || search.content || search._highlightResult?.content?.value || "",
+      120,
+    );
     // 生成搜索数据
     const searchData = { url, type, title, anchor, content };
     results.push(searchData);

@@ -67,8 +67,19 @@ export default withPwa(
       const canonicalUrl = `${themeConfig.siteMeta.site}/${pageData.relativePath}`
         .replace(/index\.md$/, "")
         .replace(/\.md$/, "");
+      const algoliaTitle = pageData.frontmatter.title || pageData.title || themeConfig.siteMeta.title;
+      const algoliaDescription =
+        pageData.frontmatter.description || themeConfig.siteMeta.description || "";
       pageData.frontmatter.head ??= [];
       pageData.frontmatter.head.push(["link", { rel: "canonical", href: canonicalUrl }]);
+      pageData.frontmatter.head.push([
+        "meta",
+        { name: "algolia-title", content: algoliaTitle },
+      ]);
+      pageData.frontmatter.head.push([
+        "meta",
+        { name: "algolia-description", content: algoliaDescription },
+      ]);
     },
     // transformHtml
     transformHtml: (html) => {
