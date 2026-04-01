@@ -86,11 +86,21 @@ const formatSearchData = (data) => {
     // 若无 anchor
     // if (search.anchor === "" || search.anchor === "app") continue;
     // 获取数据
-    const url = search?.url;
-    const type = search.type === "lvl1" ? "post" : "content";
-    const title = search._highlightResult?.hierarchy?.lvl1?.value;
-    const anchor = search._highlightResult?.hierarchy?.[search.type]?.value;
-    const content = search._highlightResult?.content?.value;
+    const url = search?.url || search?.regularPath || search?.path || "";
+    const type = search.type || "post";
+    const title =
+      search._highlightResult?.title?.value ||
+      search.title ||
+      search._highlightResult?.hierarchy?.lvl1?.value ||
+      search._highlightResult?.hierarchy?.lvl0?.value ||
+      "未命名内容";
+    const anchor =
+      search._highlightResult?.anchor?.value ||
+      search.anchor ||
+      search._highlightResult?.hierarchy?.[search.type]?.value ||
+      "";
+    const content =
+      search._highlightResult?.content?.value || search.content || search.description || "";
     // 生成搜索数据
     const searchData = { url, type, title, anchor, content };
     results.push(searchData);
