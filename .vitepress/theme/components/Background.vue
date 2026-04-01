@@ -3,8 +3,8 @@
     <!-- 站点背景 -->
     <div v-if="backgroundType !== 'close'" :class="['background', backgroundType, themeValue]">
       <img
-        v-if="backgroundType === 'image'"
-        :src="backgroundUrl"
+        v-if="backgroundType === 'image' && hasValidImageUrl"
+        :src="normalizedBackgroundUrl"
         id="background-cover"
         class="cover"
         alt="background"
@@ -22,8 +22,14 @@ import { mainStore } from "@/store";
 const store = mainStore();
 const { backgroundType, backgroundUrl, themeValue } = storeToRefs(store);
 
+const normalizedBackgroundUrl = computed(() => String(backgroundUrl.value || "").trim());
+const hasValidImageUrl = computed(() => /^https?:\/\/.+/.test(normalizedBackgroundUrl.value));
+
 // 加载失败
 const coverError = (e) => {
+  const failedSrc = e?.target?.getAttribute("src") || "";
+  // 仅处理当前生效地址的失败事件，忽略输入过程/历史请求的错误
+  if (!failedSrc || failedSrc !== normalizedBackgroundUrl.value) return;
   // 回退到纹理网格背景，避免出现空白背景
   e.target.src =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='100%25' height='100%25'%3E%3C/svg%3E";
@@ -33,6 +39,9 @@ const coverError = (e) => {
 
 // 加载完成
 const coverLoaded = (e) => {
+  const loadedSrc = e?.target?.getAttribute("src") || "";
+  // 仅响应当前生效地址的加载成功事件
+  if (!loadedSrc || loadedSrc !== normalizedBackgroundUrl.value) return;
   const imgElement = e.target;
   // 加载完成
   imgElement.classList.add("loaded");

@@ -14,8 +14,14 @@
         <!-- 导航栏菜单 -->
         <div class="nav-center">
           <div class="site-menu">
-            <div v-for="(item, index) in theme.nav" :key="index" class="menu-item">
-              <span class="link-btn"> {{ item.text }}</span>
+            <div
+              v-for="(item, index) in theme.nav"
+              :key="index"
+              :class="['menu-item', { direct: item.link && !item.items }]"
+            >
+              <span class="link-btn" @click="item.link && !item.items && router.go(item.link)">
+                {{ item.text }}
+              </span>
               <div v-if="item.items" class="link-child">
                 <span
                   v-for="(child, childIndex) in item.items"
@@ -438,6 +444,11 @@ const themeTypeText = computed(() => {
               transform: translateY(0) scale(1);
               opacity: 1;
               visibility: visible;
+            }
+          }
+          &.direct {
+            .link-btn {
+              padding: 0 1rem;
             }
           }
         }

@@ -1,0 +1,6 @@
+﻿User-agent: *
+Allow: /
+Allow: /portal/
+Allow: /articles/
+
+Sitemap: https://blog.imsyy.top/sitemap.xml

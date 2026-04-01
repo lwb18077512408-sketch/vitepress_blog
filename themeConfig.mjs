@@ -43,6 +43,8 @@ export const themeConfig = {
 
   nav: [
     {
+      text: "快捷链接",
+      link: "/portal/archives",
     //   text: "文章",
     //   items: [
     //     { text: "A1", link: "/portal/archives", icon: "article" },
@@ -57,6 +59,10 @@ export const themeConfig = {
     //     { text: "B2", link: "/portal/project", icon: "code" },
     //     { text: "B3", link: "/portal/link", icon: "people" },
     //   ],
+    },
+    {
+      text: "关于本站",
+      link: "/portal/about",
     },
   ],
 

@@ -14,7 +14,12 @@
             <!-- 菜单 -->
             <div class="menu-list">
               <div v-for="(item, index) in nav" :key="index" class="menu-item">
-                <span class="link-title"> {{ item.text }}</span>
+                <span
+                  :class="['link-title', { clickable: item.link && !item.items }]"
+                  @click="item.link && !item.items && pageJump(item.link)"
+                >
+                  {{ item.text }}
+                </span>
                 <div v-if="item.items" class="link-child">
                   <div
                     v-for="(child, childIndex) in item.items"
@@ -139,6 +144,13 @@ const pageJump = (url) => {
         margin-bottom: 12px;
         display: inline-block;
         color: var(--main-font-second-color);
+        &.clickable {
+          cursor: pointer;
+          transition: color 0.3s;
+          &:hover {
+            color: var(--main-color);
+          }
+        }
       }
       .link-child {
         display: grid;
