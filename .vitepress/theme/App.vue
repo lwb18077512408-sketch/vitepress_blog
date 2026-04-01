@@ -128,6 +128,8 @@ watch(
 
 onMounted(() => {
   console.log(frontmatter.value, page.value, theme.value);
+  // 强制使用默认背景，避免旧缓存覆盖
+  store.forceDefaultBackground();
   // 鍏ㄧ珯缃伆
   specialDayGray();
   // 鏇存敼涓婚绫诲埆

@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 
+const DEFAULT_BACKGROUND_TYPE = "image";
+const DEFAULT_BACKGROUND_URL = "https://pic1.imgdb.cn/item/69cd170d5a6f8fe2e6c94b7f.jpg";
+
 export const mainStore = defineStore("main", {
   state: () => {
     return {
@@ -50,8 +53,8 @@ export const mainStore = defineStore("main", {
       // 上次滚动位置
       lastScrollY: 0,
       // 站点背景
-      backgroundType: "image",
-      backgroundUrl: "https://pic1.imgdb.cn/item/69cd170d5a6f8fe2e6c94b7f.jpg",
+      backgroundType: DEFAULT_BACKGROUND_TYPE,
+      backgroundUrl: DEFAULT_BACKGROUND_URL,
     };
   },
   getters: {},
@@ -108,6 +111,11 @@ export const mainStore = defineStore("main", {
         });
       }
     },
+    // 强制使用默认背景（忽略历史缓存）
+    forceDefaultBackground() {
+      this.backgroundType = DEFAULT_BACKGROUND_TYPE;
+      this.backgroundUrl = DEFAULT_BACKGROUND_URL;
+    },
   },
   // 数据持久化
   persist: [
@@ -120,11 +128,9 @@ export const mainStore = defineStore("main", {
         "playerShow",
         "playerVolume",
         "backgroundBlur",
-        "backgroundType",
         "fontFamily",
         "fontSize",
         "infoPosition",
-        "backgroundUrl",
       ],
     },
   ],
