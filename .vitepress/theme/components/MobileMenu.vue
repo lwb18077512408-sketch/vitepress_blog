@@ -1,17 +1,17 @@
-﻿<template>
+<!-- 移动端菜单 -->
+<template>
   <Teleport to="body">
-    <!-- 绉诲姩绔彍鍗?-->
     <Transition name="fade" mode="out-in">
       <div v-show="store.mobileMenuShow" class="mobile-menu">
-        <!-- 鑳屾櫙閬僵 -->
+        <!-- 背景遮罩 -->
         <div class="menu-mask" @click="store.changeShowStatus('mobileMenuShow')" />
         <Transition name="toLeft" mode="out-in">
           <div v-show="store.mobileMenuShow" class="menu-content s-card">
-            <!-- 鍏抽棴鎸夐挳 -->
+            <!-- 关闭按钮 -->
             <div class="close-control" @click="store.changeShowStatus('mobileMenuShow')">
               <i class="iconfont icon-close"></i>
             </div>
-            <!-- 鑿滃崟 -->
+            <!-- 菜单 -->
             <div class="menu-list">
               <div v-for="(item, index) in nav" :key="index" class="menu-item">
                 <span class="link-title"> {{ item.text }}</span>
@@ -29,9 +29,9 @@
               </div>
             </div>
             <hr />
-            <!-- 鏍囩 -->
+            <!-- 标签 -->
             <div class="tags-list menu-item">
-              <span class="link-title"> 鏍囩</span>
+              <span class="link-title">标签</span>
               <div class="link-child">
                 <div
                   v-for="(item, tag, index) in tagsData"
@@ -58,10 +58,10 @@ const store = mainStore();
 const router = useRouter();
 const { theme } = useData();
 
-// 鑿滃崟鏁版嵁
+// 菜单数据
 const { nav, tagsData } = theme.value;
 
-// 椤甸潰璺宠浆
+// 页面跳转
 const pageJump = (url) => {
   if (!url) return false;
   store.changeShowStatus("mobileMenuShow");

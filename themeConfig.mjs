@@ -37,6 +37,7 @@ export const themeConfig = {
           href: "https://cdn2.codesign.qq.com/icons/g5ZpEgx3z4VO6j2/latest/iconfont.css",
         },
       ],
+        ["meta", { name: "algolia-site-verification", content: "3DBCE59EDB6A4A61" }],
     ],
   },
 
@@ -153,8 +154,8 @@ export const themeConfig = {
 
   search: {
     enable: true,
-    appId: "",
-    apiKey: "",
+    appId: "84ANOE5FFI",
+    apiKey: "387ba2b33a333ae462445289f4a071a6",
   },
 
   github: {
