@@ -24,10 +24,11 @@ const { backgroundType, backgroundUrl, themeValue } = storeToRefs(store);
 
 // 加载失败
 const coverError = (e) => {
-  // 替换为透明图片
+  // 回退到纹理网格背景，避免出现空白背景
   e.target.src =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='100%25' height='100%25'%3E%3C/svg%3E";
-  $message.error("背景图片加载失败，请重新设置");
+  store.backgroundType = "pattern-grid";
+  $message.warning("背景图片加载失败，已自动切换为网格纹理背景");
 };
 
 // 加载完成
