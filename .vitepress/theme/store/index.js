@@ -4,7 +4,7 @@ export const mainStore = defineStore("main", {
   state: () => {
     return {
       // 主题类别
-      themeType: "auto",
+      themeType: "dark",
       themeValue: "light",
       // banner
       bannerType: "half",

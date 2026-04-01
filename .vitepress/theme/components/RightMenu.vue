@@ -18,6 +18,9 @@
           @contextmenu.stop="closeRightMenu"
         >
           <div class="tools">
+            <div class="btn" title="复制选中文本" @click="copyText(clickedTypeData)">
+              <i class="iconfont icon-copy"></i>
+            </div>
             <div class="btn" title="后退" @click="rightMenuFunc('back')">
               <i class="iconfont icon-left"></i>
             </div>
@@ -27,35 +30,13 @@
             <div class="btn" title="刷新" @click="rightMenuFunc('reload')">
               <i class="iconfont icon-refresh"></i>
             </div>
-            <div class="btn" title="返回顶部" @click="smoothScrolling">
-              <i class="iconfont icon-arrow-up"></i>
-            </div>
           </div>
+
           <div class="all-menu">
-            <div
-              v-if="clickedType === 'normal'"
-              class="btn"
-              @click="router.go(shufflePost(theme.postData))"
-            >
-              <i class="iconfont icon-shuffle"></i>
-              <span class="name">随便逛逛</span>
-            </div>
-            <div
-              v-if="clickedType === 'normal'"
-              class="btn"
-              @click="router.go('/portal/categories')"
-            >
-              <i class="iconfont icon-folder"></i>
-              <span class="name">全部分类</span>
-            </div>
-            <div v-if="clickedType === 'normal'" class="btn" @click="router.go('/portal/tags')">
-              <i class="iconfont icon-hashtag"></i>
-              <span class="name">全部标签</span>
-            </div>
             <!-- 链接类型 -->
             <div v-if="clickedType === 'link'" class="btn" @click="rightMenuFunc('open-link')">
               <i class="iconfont icon-window"></i>
-              <span class="name">新标签页打开</span>
+              <span class="name">新标签打开</span>
             </div>
             <div
               v-if="clickedType === 'link'"
@@ -101,7 +82,7 @@
               target="_blank"
             >
               <i class="iconfont icon-link"></i>
-              <span class="name">在新标签页打开</span>
+              <span class="name">在新标签打开</span>
             </a>
             <a
               v-if="clickedType === 'text' || clickedType === 'input'"
@@ -112,45 +93,8 @@
               <i class="iconfont icon-baidu"></i>
               <span class="name">使用百度搜索</span>
             </a>
-            <a
-              v-if="clickedType === 'text' || clickedType === 'input'"
-              :href="`https://cn.bing.com/search?q=${encodeURIComponent(clickedTypeData)}`"
-              class="btn right-menu-link"
-              target="_blank"
-            >
-              <i class="iconfont icon-bing"></i>
-              <span class="name">使用必应搜索</span>
-            </a>
-            <div
-              v-if="clickedType === 'text' || clickedType === 'input'"
-              class="btn"
-              @click="copyText(clickedTypeData)"
-            >
-              <i class="iconfont icon-copy"></i>
-              <span class="name">复制选中文本</span>
-            </div>
-            <div
-              v-if="clickedType === 'text' && !commentCopyShow && theme.comment.type === 'artalk'"
-              class="btn"
-              @click="commentCopy(clickedTypeData)"
-            >
-              <i class="iconfont icon-chat"></i>
-              <span class="name">评论选中内容</span>
-            </div>
           </div>
-          <!-- 通用菜单 -->
-          <div class="all-menu general">
-            <!-- 版权协议 -->
-            <div class="btn" @click="router.go('/portal/cc')">
-              <i class="iconfont icon-accessible"></i>
-              <span class="name">版权协议</span>
-            </div>
-            <!-- 隐私政策 -->
-            <div class="btn" @click="router.go('/portal/privacy')">
-              <i class="iconfont icon-privacy"></i>
-              <span class="name">隐私政策</span>
-            </div>
-          </div>
+
           <div class="all-menu general">
             <!-- 复制地址 -->
             <div class="btn" @click="rightMenuFunc('copy-link')">
@@ -169,38 +113,7 @@
               </span>
             </div>
           </div>
-          <!-- 播放器控制 -->
-          <div v-if="playerShow" class="all-menu general player">
-            <div class="data">
-              <span class="name">{{ playerData.name }}</span>
-              <span class="artist">{{ playerData.artist }}</span>
-            </div>
-            <div class="volume" @click.stop>
-              <i
-                class="iconfont icon-volume-down"
-                @click="playerVolume = Math.max(0, playerVolume - 0.1)"
-              />
-              <Slider :value="playerVolume" @update="(val) => (playerVolume = val)" />
-              <i
-                class="iconfont icon-volume-up"
-                @click="playerVolume = Math.min(1, playerVolume + 0.1)"
-              />
-            </div>
-            <div class="control" @click.stop>
-              <div class="btn" title="上一曲" @click="playerControl('prev')">
-                <i class="iconfont icon-prev"></i>
-              </div>
-              <div v-if="playState" class="btn" title="暂停" @click="playerControl('toggle')">
-                <i class="iconfont icon-pause"></i>
-              </div>
-              <div v-else class="btn" title="播放" @click="playerControl('toggle')">
-                <i class="iconfont icon-play"></i>
-              </div>
-              <div class="btn" title="下一曲" @click="playerControl('next')">
-                <i class="iconfont icon-next"></i>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </Transition>
@@ -473,8 +386,7 @@ defineExpose({ openRightMenu });
         }
       }
       &.general {
-        padding-top: 12px;
-        border-top: 1px solid var(--main-card-border);
+        margin-top: 12px;
       }
     }
     .player {

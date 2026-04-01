@@ -42,20 +42,20 @@ export const themeConfig = {
 
   nav: [
     {
-      text: "文章",
-      items: [
-        { text: "A1", link: "/portal/archives", icon: "article" },
-        { text: "A2", link: "/portal/categories", icon: "folder" },
-        { text: "A3", link: "/portal/tags", icon: "hashtag" },
-      ],
-    },
-    {
-      text: "页面",
-      items: [
-        { text: "B1", link: "/portal/about", icon: "contacts" },
-        { text: "B2", link: "/portal/project", icon: "code" },
-        { text: "B3", link: "/portal/link", icon: "people" },
-      ],
+    //   text: "文章",
+    //   items: [
+    //     { text: "A1", link: "/portal/archives", icon: "article" },
+    //     { text: "A2", link: "/portal/categories", icon: "folder" },
+    //     { text: "A3", link: "/portal/tags", icon: "hashtag" },
+    //   ],
+    // },
+    // {
+    //   text: "页面",
+    //   items: [
+    //     { text: "B1", link: "/portal/about", icon: "contacts" },
+    //     { text: "B2", link: "/portal/project", icon: "code" },
+    //     { text: "B3", link: "/portal/link", icon: "people" },
+    //   ],
     },
   ],
 
@@ -75,14 +75,14 @@ export const themeConfig = {
   footer: {
     social: [],
     sitemap: [
-      {
-        text: "博客",
-        items: [{ text: "XXX", link: "/" }],
-      },
-      {
-        text: "页面",
-        items: [{ text: "XXX", link: "/portal/about" }],
-      },
+      // {
+      //   text: "博客",
+      //   items: [{ text: "XXX", link: "/" }],
+      // },
+      // {
+      //   text: "页面",
+      //   items: [{ text: "XXX", link: "/portal/about" }],
+      // },
     ],
   },
 
@@ -152,7 +152,7 @@ export const themeConfig = {
   },
 
   search: {
-    enable: false,
+    enable: true,
     appId: "",
     apiKey: "",
   },

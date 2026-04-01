@@ -34,7 +34,14 @@
           </span>
         </div>
         <div class="right-nav">
-         
+          <!-- 显示模式切换 -->
+          <div
+            class="menu-btn nav-btn"
+            :title="`当前主题: ${themeTypeText}`"
+            @click="store.changeThemeType"
+          >
+            <i :class="`iconfont icon-${store.themeType}`"></i>
+          </div>
           <!-- 搜索 -->
           <div
             v-if="theme.search.enable"
@@ -101,6 +108,16 @@ const router = useRouter();
 const store = mainStore();
 const { scrollData } = storeToRefs(store);
 const { site, theme, frontmatter, page } = useData();
+
+// 获取主题类型文本
+const themeTypeText = computed(() => {
+  const typeMap = {
+    dark: "深色模式",
+    light: "浅色模式",
+    auto: "跟随系统",
+  };
+  return typeMap[store.themeType] || "未知";
+});
 </script>
 
 <style lang="scss" scoped>
