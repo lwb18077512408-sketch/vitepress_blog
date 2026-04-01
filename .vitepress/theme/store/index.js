@@ -112,9 +112,20 @@ export const mainStore = defineStore("main", {
       }
     },
     // 强制使用默认背景（忽略历史缓存）
-    forceDefaultBackground() {
-      this.backgroundType = DEFAULT_BACKGROUND_TYPE;
-      this.backgroundUrl = DEFAULT_BACKGROUND_URL;
+    applyBackgroundConfig(config = {}) {
+      const {
+        defaultType = DEFAULT_BACKGROUND_TYPE,
+        defaultUrl = DEFAULT_BACKGROUND_URL,
+        forceDefaultOnLoad = true,
+      } = config;
+      if (forceDefaultOnLoad) {
+        this.backgroundType = defaultType;
+        this.backgroundUrl = defaultUrl;
+        return;
+      }
+      // 非强制模式：仅在无值时使用默认值，保留用户持久化偏好
+      if (!this.backgroundType) this.backgroundType = defaultType;
+      if (!this.backgroundUrl) this.backgroundUrl = defaultUrl;
     },
   },
   // 数据持久化
@@ -128,9 +139,11 @@ export const mainStore = defineStore("main", {
         "playerShow",
         "playerVolume",
         "backgroundBlur",
+        "backgroundType",
         "fontFamily",
         "fontSize",
         "infoPosition",
+        "backgroundUrl",
       ],
     },
   ],

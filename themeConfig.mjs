@@ -100,6 +100,15 @@ export const themeConfig = {
     },
   },
 
+  // 背景策略
+  // forceDefaultOnLoad: true  每次加载强制使用默认背景（忽略旧缓存）
+  // forceDefaultOnLoad: false 使用用户上次保存的背景偏好
+  background: {
+    defaultType: "image",
+    defaultUrl: "https://pic1.imgdb.cn/item/69cd170d5a6f8fe2e6c94b7f.jpg",
+    forceDefaultOnLoad: false,
+  },
+
   aside: {
     hello: {
       enable: true,
