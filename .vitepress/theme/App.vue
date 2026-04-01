@@ -22,7 +22,7 @@
     </template>
   </main>
   <!-- 椤佃剼 -->
-  <FooterLink v-show="!loadingStatus" :showBar="isPostPage && !page.isNotFound" />
+  <FooterLink v-show="!loadingStatus" :showBar="false" />
   <Footer v-show="!loadingStatus" />
   <!-- 鎮诞鑿滃崟 -->
   <Teleport to="body">

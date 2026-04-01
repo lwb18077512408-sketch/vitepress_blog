@@ -50,8 +50,8 @@ export const mainStore = defineStore("main", {
       // 上次滚动位置
       lastScrollY: 0,
       // 站点背景
-      backgroundType: "patterns",
-      backgroundUrl: "https://tuapi.eees.cc/api.php?category={dongman,fengjing}&type=302",
+      backgroundType: "image",
+      backgroundUrl: "https://pic1.imgdb.cn/item/69cd170d5a6f8fe2e6c94b7f.jpg",
     };
   },
   getters: {},

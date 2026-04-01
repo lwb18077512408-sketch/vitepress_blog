@@ -24,16 +24,16 @@ import Link from "@/views/Link.vue";
 - 名称：`無名小栈`
 - 描述：`分享技术与科技生活`
 - 地址：`https://blog.imsyy.top/`
-- 头像：`https://pic.imgdb.cn/item/65bc52b0871b83018a06699d.png`
-- 站点图片：`https://pic.imgdb.cn/item/65dc47009f345e8d030b65ba.png`
+- 头像：`https://pic1.imgdb.cn/item/69cd170d5a6f8fe2e6c94b7f.jpg`
+- 站点图片：`https://pic1.imgdb.cn/item/69cd170d5a6f8fe2e6c94b7f.jpg`
 - 订阅：`https://blog.imsyy.top/rss.xml`
 
 ```yml
 name: 無名小栈
 desc: 分享技术与科技生活
 url: https://blog.imsyy.top/
-avatar: https://pic.imgdb.cn/item/65bc52b0871b83018a06699d.png
-screenshot: https://pic.imgdb.cn/item/65dc47009f345e8d030b65ba.png
+avatar: https://pic1.imgdb.cn/item/69cd170d5a6f8fe2e6c94b7f.jpg
+screenshot: https://pic1.imgdb.cn/item/69cd170d5a6f8fe2e6c94b7f.jpg
 rss: https://blog.imsyy.top/rss.xml
 ```
 

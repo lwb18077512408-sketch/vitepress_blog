@@ -54,7 +54,25 @@
               :class="['options', { choose: backgroundType === 'patterns' }]"
               @click="backgroundType = 'patterns'"
             >
-              纹理
+              拼图
+            </span>
+            <span
+              :class="['options', { choose: backgroundType === 'pattern-dots' }]"
+              @click="backgroundType = 'pattern-dots'"
+            >
+              点阵
+            </span>
+            <span
+              :class="['options', { choose: backgroundType === 'pattern-grid' }]"
+              @click="backgroundType = 'pattern-grid'"
+            >
+              网格
+            </span>
+            <span
+              :class="['options', { choose: backgroundType === 'pattern-stars' }]"
+              @click="backgroundType = 'pattern-stars'"
+            >
+              星空噪点
             </span>
             <span
               :class="['options', { choose: backgroundType === 'image' }]"
@@ -187,11 +205,14 @@ const { themeType, fontFamily, fontSize, infoPosition, backgroundType, backgroun
     align-items: center;
     justify-content: space-between;
     margin-bottom: 12px;
+    gap: 1rem;
     .set-options {
       display: flex;
       flex-direction: row;
       align-items: center;
-      height: 40px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      min-height: 40px;
       border-radius: 8px;
       .options {
         display: flex;
