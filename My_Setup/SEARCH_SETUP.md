@@ -29,22 +29,22 @@
 
 以下文件和搜索逻辑直接相关：
 
-1. [themeConfig.mjs](themeConfig.mjs)
+1. `themeConfig.mjs`
 用途：前端搜索配置入口，包含 `appId`、`apiKey` 和搜索开关。
 
-2. [.vitepress/theme/components/Search.vue](.vitepress/theme/components/Search.vue)
+2. `.vitepress/theme/components/Search.vue`
 用途：搜索弹窗与结果展示组件。
 当前默认搜索索引为 `bbg_blog_articles`。
 
-3. [.vitepress/config.mjs](.vitepress/config.mjs)
+3. `.vitepress/config.mjs`
 用途：构建配置。当前会为每个页面注入 `algolia-title` 和 `algolia-description`，方便 crawler 提取更干净的标题和摘要。
 
-4. [My_Setup/PV_SETUP.md](My_Setup/PV_SETUP.md)
+4. [PV_SETUP.md](./PV_SETUP.md)
 用途：同目录下的维护文档，可作为写法参考。
 
 ## 前端配置
 
-当前前端搜索配置位于 [themeConfig.mjs](themeConfig.mjs)。
+当前前端搜索配置位于 `themeConfig.mjs`。
 
 当前关键配置如下：
 
@@ -89,7 +89,7 @@ index-name="bbg_blog_articles"
 2. `algolia-title`
 3. `algolia-description`
 
-相关逻辑在 [.vitepress/config.mjs](.vitepress/config.mjs) 中。
+相关逻辑在 `.vitepress/config.mjs` 中。
 
 ### 作用说明
 
@@ -203,9 +203,9 @@ schedule: "every 1 day at 3:00 am"
 
 如果你改了以下任意文件，记得重新构建并部署站点：
 
-1. [themeConfig.mjs](themeConfig.mjs)
-2. [.vitepress/config.mjs](.vitepress/config.mjs)
-3. [.vitepress/theme/components/Search.vue](.vitepress/theme/components/Search.vue)
+1. `themeConfig.mjs`
+2. `.vitepress/config.mjs`
+3. `.vitepress/theme/components/Search.vue`
 
 原因：
 
