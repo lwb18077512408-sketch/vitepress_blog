@@ -25,12 +25,13 @@
             target="_blank"
           >
             <div class="cover">
-              <LazyLoader :useFriendsLink="link.avatar || link.ico">
+              <LazyLoader :useFriendsLink="getAvatarSrc(link)">
                 <img
-                  :src="link.avatar || link.ico"
+                  :src="getAvatarSrc(link)"
                   :class="['cover-img', { 'cf-friends-avatar': useFriendsLink }]"
                   :alt="link?.name || 'cover'"
-                  @load="(e) => e.target.classList.add('loaded')"
+                  @load="onAvatarLoad"
+                  @error="(e) => onAvatarError(e, link)"
                 />
               </LazyLoader>
             </div>
@@ -47,6 +48,65 @@
 </template>
 
 <script setup>
+const DEFAULT_LINK_AVATAR = "/images/logo/favicon-96x96.webp";
+
+const getHostname = (url) => {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return "";
+  }
+};
+
+const getOriginFavicon = (url) => {
+  try {
+    return `${new URL(url).origin}/favicon.ico`;
+  } catch {
+    return "";
+  }
+};
+
+const buildAvatarCandidates = (link = {}) => {
+  const hostname = getHostname(link?.url);
+  const candidates = [
+    link?.avatar,
+    link?.ico,
+    getOriginFavicon(link?.url),
+    hostname ? `https://icons.duckduckgo.com/ip3/${hostname}.ico` : "",
+    hostname ? `https://www.google.com/s2/favicons?domain=${hostname}&sz=128` : "",
+    DEFAULT_LINK_AVATAR,
+  ].filter(Boolean);
+
+  return [...new Set(candidates)];
+};
+
+const getAvatarSrc = (link) => {
+  const candidates = buildAvatarCandidates(link);
+  return candidates[0] || DEFAULT_LINK_AVATAR;
+};
+
+const onAvatarLoad = (e) => {
+  e.target.classList.add("loaded");
+};
+
+const onAvatarError = (e, link) => {
+  const img = e?.target;
+  if (!img) return;
+
+  const candidates = buildAvatarCandidates(link);
+  const currentSrc = img.getAttribute("src");
+  const currentIndex = candidates.indexOf(currentSrc);
+  const nextSrc = candidates[currentIndex + 1] || "";
+
+  if (nextSrc) {
+    img.setAttribute("src", nextSrc);
+    return;
+  }
+
+  // 避免所有图标源都失败时头像一直透明不可见
+  img.classList.add("loaded");
+};
+
 const props = defineProps({
   // 列表数据
   listData: {

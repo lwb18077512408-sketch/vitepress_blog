@@ -1,19 +1,12 @@
 <template>
   <div class="about">
     <h1 class="title">关于本站</h1>
-    <div class="about-content" style="grid-template-columns: 3fr 2fr">
+    <div class="about-content" style="grid-template-columns: 1fr">
       <!-- 介绍 -->
       <div class="about-item hello">
         <span class="text1">你好，很高兴认识你👋</span>
-        <span class="text2 title2">我是 無名</span>
-        <span class="text3">是一名 前端开发工程师、独立开发者、博主</span>
-      </div>
-      <!-- 追求 -->
-      <div class="about-item pursuit">
-        <span class="tip">追求</span>
-        <span class="title2">源于</span>
-        <span class="title2">热爱而去开发</span>
-        <span class="title2">优秀的作品</span>
+        <span class="text2 title2">我是 BBG</span>
+        <span class="text3">是一名独立开发者，喜欢折腾产品、代码和有趣的想法，这里记录我的学习、思考与创作。</span>
       </div>
     </div>
     <div class="about-content" style="grid-template-columns: 2fr 3fr">
@@ -31,7 +24,9 @@
             target="_blank"
           >
             <div class="skills-logo">
-              <i :class="`iconfont icon-${item.icon}`"></i>
+                <img v-if="item.img" :src="item.img" alt="" class="skills-logo-img" />
+              <i v-else-if="item.icon && iconfontAllowed.has(item.icon)" :class="`iconfont icon-${item.icon}`"></i>
+              <span v-else class="skills-abbr">{{ (item.abbr || item.name || "?").charAt(0).toUpperCase() }}</span>
             </div>
             <span class="skills-name">{{ item.name }}</span>
           </a>
@@ -44,32 +39,32 @@
           <i>無限進步</i>
         </span>
         <div class="list">
-          <span class="list-item" style="--color: #357ef5">ZZRVTC · 计算机应用技术</span>
-          <span class="list-item" style="--color: #eb372a">FE · 前端开发工程师</span>
+          <span class="list-item" style="--color: #357ef5"> </span>
+          <span class="list-item" style="--color: #eb372a"> </span>
         </div>
         <img
           class="career-img"
-          src="https://pic.efefee.cn/uploads/2024/02/22/65d71db18bcf9.png"
+          src="/images/logo/wait_logo.png"
           alt="career"
         />
       </div>
     </div>
-    <div class="about-content" style="grid-template-columns: 3fr 2fr">
+    <div class="about-content" style="grid-template-columns: 2.5fr 2.5fr">
       <!-- 性格 -->
       <div class="about-item character" style="--color: #4298b4">
         <span class="tip">性格</span>
-        <span class="title2">物流师</span>
-        <span class="title2" style="color: var(--color)">ISTJ-A / ISTJ-T</span>
+        <span class="title2">提倡者型人格</span>
+        <span class="title2" style="color: var(--color)">INFJ</span>
         <span class="more">
           在
           <a href="https://www.16personalities.com/ch/" target="_blank">16personalities</a>
           了解更多关于
           <a href="https://www.16personalities.com/ch/istj-%E4%BA%BA%E6%A0%BC" target="_blank">
-            物流师
+            提倡者
           </a>
         </span>
-        <img
-          src="https://pic.efefee.cn/uploads/2024/02/22/65d6bc7ae72ae.png"
+        <img                                                    
+          src="https://pic.imgdd.cc/item/69ce7d03f169c80b7a893f3e.png"
           alt="male"
           class="male"
         />
@@ -77,83 +72,27 @@
       <!-- 座右铭 -->
       <div class="about-item">
         <span class="tip">座右铭</span>
-        <span class="title1" style="margin-top: 20px">脚踏实地，</span>
-        <span class="title2">一丝不苟。</span>
+        <span class="title1" style="margin-top: 20px">种一颗树最好的时间是在十年前，</span>
+        <span class="title2">其次，是现在。</span>
       </div>
     </div>
-    <div class="about-content" style="grid-template-columns: 1fr 1fr">
-      <div
-        class="about-item like image"
-        style="
-          --color: #0c0e20;
-          background-image: url(https://pic.efefee.cn/uploads/2024/02/27/65dd812567723.webp);
-        "
-      >
-        <div class="image-content">
-          <span class="tip">关注偏好</span>
-          <span class="title2">数码科技</span>
-          <div class="image-desc">
-            <span class="left">手机、电脑及软硬件</span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="about-item like image"
-        style="
-          --color: #7b3c25;
-          background-image: url(https://pic.efefee.cn/uploads/2024/02/27/65dd836099d16.webp);
-        "
-      >
-        <div class="image-content">
-          <span class="tip">音乐偏好</span>
-          <span class="title2">欧美、华语流行、纯音乐、ACG</span>
-          <div class="image-desc">
-            <span class="left">一起欣赏更多音乐</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="about-content" style="grid-template-columns: 2fr 3fr">
-      <!-- 数据 -->
-      <div
-        class="about-item static image"
-        style="
-          --color: #0f1114;
-          background-image: url(https://pic.efefee.cn/uploads/2024/04/15/661c8fbf226d3.webp);
-        "
-      >
-        <div class="image-content">
-          <span class="tip">数据</span>
-          <span class="title2">访问统计</span>
-          <div class="static-data">
-            <div v-for="(item, key, index) in statisticsData" :key="index" class="static-item">
-              <span class="static-name">{{ key }}</span>
-              <span class="static-num">{{ item }}</span>
-            </div>
-          </div>
-          <div class="image-desc opacity">
-            <span class="left">
-              统计信息来自 <a href="https://v6.51.la/" target="_blank">51la</a>
-            </span>
-          </div>
-        </div>
-      </div>
+    <div class="about-content" style="grid-template-columns: 1fr">
       <!-- 信息 -->
       <div class="about-item child">
         <div
           class="about-item map image"
-          style="background-image: url(https://pic.efefee.cn/uploads/2024/04/15/661cbccc56af5.webp)"
+          style="background-image: url(https://pic.imgdd.cc/item/69ce7992f169c80b7a89385b.jpg)"
         >
-          <span class="position">我现在住在 <strong>中国，河南省</strong></span>
+          <span class="position">我现在住在 <strong>中国，广西桂林市</strong></span>
         </div>
         <div class="about-item info">
           <div class="info-item">
             <span class="info-name">生于</span>
-            <span class="info-num" style="--color: #43a6c6">2001</span>
+            <span class="info-num" style="--color: #43a6c6">2001年</span>
           </div>
           <div class="info-item">
             <span class="info-name">现在职业</span>
-            <span class="info-num" style="--color: #dfac46">前端开发工程师</span>
+            <span class="info-num" style="--color: #dfac46">在读硕士</span>
           </div>
         </div>
       </div>
@@ -178,30 +117,13 @@
 </template>
 
 <script setup>
-import { getStatistics } from "@/api";
-
 const { theme } = useData();
+
+// 当前 iconfont 链接里已验证可用的技能图标
+const iconfontAllowed = new Set(["vue", "python", "git", "photoshop"]);
 
 // 技能数据
 const skillsData = [
-  {
-    name: "JavaScript",
-    color: "#f1e05abd",
-    icon: "javascript",
-    link: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript",
-  },
-  {
-    name: "HTML5",
-    color: "#e34f26",
-    icon: "html5",
-    link: "https://developer.mozilla.org/zh-CN/docs/Web/HTML",
-  },
-  {
-    name: "CSS3",
-    color: "#563d7c",
-    icon: "css3",
-    link: "https://developer.mozilla.org/zh-CN/docs/Web/CSS",
-  },
   {
     name: "Vue",
     color: "#41b883",
@@ -209,28 +131,10 @@ const skillsData = [
     link: "https://cn.vuejs.org/",
   },
   {
-    name: "React",
-    color: "#149ECA",
-    icon: "react",
-    link: "https://zh-hans.reactjs.org/",
-  },
-  {
-    name: "Node.js",
-    color: "#026E00",
-    icon: "nodejs",
-    link: "https://nodejs.org/",
-  },
-  {
     name: "Python",
     color: "#3776AB",
     icon: "python",
     link: "https://www.python.org/",
-  },
-  {
-    name: "Docker",
-    color: "#2496f2",
-    icon: "docker",
-    link: "https://www.docker.com/",
   },
   {
     name: "Git",
@@ -244,26 +148,45 @@ const skillsData = [
     icon: "photoshop",
     link: "https://www.adobe.com/cn/lead/creativecloud/business.html",
   },
+  // 新增技能
   {
-    name: "ChatGPT",
-    color: "#4AA181",
-    icon: "chatgpt",
-    link: "https://chat.openai.com/",
+    name: "Linux",
+    color: "#FCC624",
+    icon: "linux",
+    abbr: "L",
+    link: "https://www.kernel.org/",
+  },
+  {
+    name: "STM32",
+    color: "#5B8DEF",
+    abbr: "S",
+    link: "https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html",
+  },
+  {
+    name: "PCB",
+    color: "#FF6B6B",
+    abbr: "P",
+    link: "https://en.wikipedia.org/wiki/Printed_circuit_board",
+  },
+  {
+    name: "3D建模",
+    color: "#8E44AD",
+    abbr: "3D",
+    link: "https://www.blender.org/",
+  },
+  {
+    name: "嵌入式",
+    color: "#2ECC71",
+    abbr: "嵌",
+    link: "https://en.wikipedia.org/wiki/Embedded_system",
+  },
+  {
+    name: "电源硬件",
+    color: "#D35400",
+    abbr: "电源",
+    link: "https://en.wikipedia.org/wiki/Power_supply",
   },
 ];
-
-// 站点统计数据
-const statisticsData = ref(null);
-
-// 获取站点统计数据
-const getStatisticsData = async () => {
-  const result = await getStatistics(theme.value.tongji["51la"]);
-  statisticsData.value = result;
-};
-
-onMounted(() => {
-  getStatisticsData();
-});
 </script>
 
 <style lang="scss" scoped>
@@ -329,20 +252,6 @@ onMounted(() => {
           line-height: 2;
         }
       }
-      &.pursuit {
-        .title2 {
-          line-height: 1.2;
-          &:last-child {
-            display: inline-block;
-            background-size: 100% 100%;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-repeat: no-repeat;
-            background-image: linear-gradient(45deg, #fa7671 50%, #f45f7f);
-          }
-        }
-      }
       &.character {
         min-height: 220px;
         cursor: pointer;
@@ -359,9 +268,9 @@ onMounted(() => {
         }
         .male {
           position: absolute;
-          top: 20px;
-          right: -10px;
-          height: 140%;
+          top: 50px;
+          right: 50px;
+          height: 70%;
           width: auto;
           transition: transform 0.5s;
           transform-origin: top center;
@@ -405,6 +314,17 @@ onMounted(() => {
               .iconfont {
                 color: #fff;
               }
+              .skills-logo-img {
+                width: 18px;
+                height: 18px;
+                display: block;
+                object-fit: contain;
+              }
+              .skills-abbr {
+                font-weight: 700;
+                color: #fff;
+                font-size: 0.9rem;
+              }
             }
             .skills-name {
               font-weight: bold;
@@ -444,9 +364,9 @@ onMounted(() => {
         }
         .career-img {
           position: absolute;
-          bottom: -10px;
-          left: 0;
-          width: 100%;
+          bottom: 5%;
+          left: 5%;
+          width: 10%;
           @media (max-width: 768px) {
             position: static;
           }
@@ -505,26 +425,6 @@ onMounted(() => {
           z-index: 0;
         }
       }
-      &.static {
-        .static-data {
-          display: grid;
-          gap: 12px;
-          grid-template-columns: 1fr 1fr;
-          margin: 20px 0;
-          .static-item {
-            display: flex;
-            flex-direction: column;
-            .static-name {
-              font-size: 15px;
-              opacity: 0.8;
-            }
-            .static-num {
-              font-size: 34px;
-              font-weight: bold;
-            }
-          }
-        }
-      }
       &.map {
         min-height: 170px;
         background-size: 100%;
@@ -541,8 +441,10 @@ onMounted(() => {
           bottom: 0;
           width: 100%;
           padding: 20px 30px;
-          color: #fff;
-          background-color: #636352;
+          color: #fff;                                //地址背景
+          background-image: linear-gradient(120deg, rgba(228, 163, 89, 0.7) 10%, rgba(192, 230, 25, 0.7) 100%);
+          background-size: 200% 200%;
+          animation: gradientFlow 6s ease infinite;
           font-size: 20px;
           transition: bottom 1s;
         }
