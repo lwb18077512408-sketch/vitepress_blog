@@ -29,6 +29,7 @@
                 <img
                   :src="getAvatarSrc(link)"
                   :class="['cover-img', { 'cf-friends-avatar': useFriendsLink }]"
+                  :style="getAvatarStyle(link)"
                   :alt="link?.name || 'cover'"
                   @load="onAvatarLoad"
                   @error="(e) => onAvatarError(e, link)"
@@ -50,9 +51,14 @@
 <script setup>
 const DEFAULT_LINK_AVATAR = "/images/logo/favicon-96x96.webp";
 
+const normalizeUrl = (value) => {
+  return typeof value === "string" ? value.trim() : "";
+};
+
 const getHostname = (url) => {
   try {
-    return new URL(url).hostname;
+    const normalized = normalizeUrl(url);
+    return normalized ? new URL(normalized).hostname : "";
   } catch {
     return "";
   }
@@ -60,7 +66,8 @@ const getHostname = (url) => {
 
 const getOriginFavicon = (url) => {
   try {
-    return `${new URL(url).origin}/favicon.ico`;
+    const normalized = normalizeUrl(url);
+    return normalized ? `${new URL(normalized).origin}/favicon.ico` : "";
   } catch {
     return "";
   }
@@ -69,8 +76,8 @@ const getOriginFavicon = (url) => {
 const buildAvatarCandidates = (link = {}) => {
   const hostname = getHostname(link?.url);
   const candidates = [
-    link?.avatar,
-    link?.ico,
+    normalizeUrl(link?.avatar),
+    normalizeUrl(link?.ico),
     getOriginFavicon(link?.url),
     hostname ? `https://icons.duckduckgo.com/ip3/${hostname}.ico` : "",
     hostname ? `https://www.google.com/s2/favicons?domain=${hostname}&sz=128` : "",
@@ -83,6 +90,13 @@ const buildAvatarCandidates = (link = {}) => {
 const getAvatarSrc = (link) => {
   const candidates = buildAvatarCandidates(link);
   return candidates[0] || DEFAULT_LINK_AVATAR;
+};
+
+const getAvatarStyle = (link = {}) => {
+  const avatarBg = normalizeUrl(link?.avatarBg);
+  return {
+    backgroundColor: avatarBg || "var(--main-card-background)",
+  };
 };
 
 const onAvatarLoad = (e) => {

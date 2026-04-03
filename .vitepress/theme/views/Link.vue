@@ -2,7 +2,7 @@
 <template>
   <div class="link">
     <!-- 顶图 -->
-    <Banner type="page" title="友情链接" desc="与各位博主无限进步">
+    <Banner type="page" title="友情链接" desc="一些常用的网站和工具，欢迎访问！" :showTitle="true">
       <!-- <div class="link-group">
         <div v-for="(link, index) in pairedLinks(allLinkData)" :key="index" class="link-group-item">
           <a v-for="(item, i) in link" :key="i" :href="item.url" class="link-logo">
