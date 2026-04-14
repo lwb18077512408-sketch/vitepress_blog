@@ -5,6 +5,7 @@
       <img
         v-if="backgroundType === 'image' && hasValidImageUrl"
         :src="normalizedBackgroundUrl"
+        ref="coverRef"
         id="background-cover"
         class="cover"
         alt="background"
@@ -21,9 +22,19 @@ import { mainStore } from "@/store";
 
 const store = mainStore();
 const { backgroundType, backgroundUrl, themeValue } = storeToRefs(store);
+const coverRef = ref(null);
 
 const normalizedBackgroundUrl = computed(() => String(backgroundUrl.value || "").trim());
 const hasValidImageUrl = computed(() => /^https?:\/\/.+/.test(normalizedBackgroundUrl.value));
+
+const syncCoverLoadedState = () => {
+  const imgElement = coverRef.value;
+  if (!imgElement) return;
+  // SSR 首屏可能在 hydration 前就完成图片加载，这里兜底补上 loaded 状态。
+  if (imgElement.complete && imgElement.naturalWidth > 0) {
+    imgElement.classList.add("loaded");
+  }
+};
 
 // 加载失败
 const coverError = (e) => {
@@ -46,6 +57,20 @@ const coverLoaded = (e) => {
   // 加载完成
   imgElement.classList.add("loaded");
 };
+
+watch(
+  () => normalizedBackgroundUrl.value,
+  () => {
+    const imgElement = coverRef.value;
+    if (!imgElement) return;
+    imgElement.classList.remove("loaded");
+    setTimeout(syncCoverLoadedState, 0);
+  },
+);
+
+onMounted(() => {
+  syncCoverLoadedState();
+});
 </script>
 
 <style lang="scss" scoped>

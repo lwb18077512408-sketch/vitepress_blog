@@ -64,13 +64,13 @@
           </a>
         </span>
         <img                                                    
-          src="https://pic.imgdd.cc/item/69ce7d03f169c80b7a893f3e.png"
+          src="https://pic1.imgdb.cn/item/69cf9463df10edaed90ef6b5.png"
           alt="male"
           class="male"
         />
       </div>
       <!-- 座右铭 -->
-      <div class="about-item">
+      <div class="about-item"> 
         <span class="tip">座右铭</span>
         <span class="title1" style="margin-top: 20px">种一颗树最好的时间是在十年前，</span>
         <span class="title2">其次，是现在。</span>
@@ -81,7 +81,7 @@
       <div class="about-item child">
         <div
           class="about-item map image"
-          style="background-image: url(https://pic.imgdd.cc/item/69ce7992f169c80b7a89385b.jpg)"
+          style="background-image: url(https://pic1.imgdb.cn/item/69cf9463df10edaed90ef6b7.jpg)"
         >
           <span class="position">我现在住在 <strong>中国，广西桂林市</strong></span>
         </div>

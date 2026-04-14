@@ -67,7 +67,7 @@ const copyTip = () => {
   const copiedText = window.getSelection().toString();
   // 妫€鏌ユ枃鏈唴瀹规槸鍚︿笉涓虹┖
   if (copiedText.trim().length > 0 && typeof $message !== "undefined") {
-    $message.success("澶嶅埗鎴愬姛锛屽湪杞浇鏃惰鏍囨敞鏈枃鍦板潃");
+    $message.success("复制成功，在转载时请标注本文地址");
   }
 };
 

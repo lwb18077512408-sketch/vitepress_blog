@@ -27,6 +27,7 @@
             <div class="cover">
               <LazyLoader :useFriendsLink="getAvatarSrc(link)">
                 <img
+                  v-avatar-guard
                   :src="getAvatarSrc(link)"
                   :class="['cover-img', { 'cf-friends-avatar': useFriendsLink }]"
                   :style="getAvatarStyle(link)"
@@ -49,7 +50,39 @@
 </template>
 
 <script setup>
-const DEFAULT_LINK_AVATAR = "/images/logo/favicon-96x96.webp";
+const DEFAULT_LINK_AVATAR = "/images/logo/browser.png";
+const AVATAR_HARD_FALLBACK_MS = 5000;
+const avatarGuardTimers = new WeakMap();
+
+const clearAvatarGuardTimer = (img) => {
+  const timer = avatarGuardTimers.get(img);
+  if (timer) {
+    clearTimeout(timer);
+    avatarGuardTimers.delete(img);
+  }
+};
+
+const startAvatarGuardTimer = (img) => {
+  if (!img) return;
+  clearAvatarGuardTimer(img);
+  const timer = setTimeout(() => {
+    if (img.classList.contains("loaded")) return;
+    img.dataset.avatarCandidateIndex = "0";
+    img.setAttribute("src", DEFAULT_LINK_AVATAR);
+    img.classList.add("loaded");
+    clearAvatarGuardTimer(img);
+  }, AVATAR_HARD_FALLBACK_MS);
+  avatarGuardTimers.set(img, timer);
+};
+
+const vAvatarGuard = {
+  mounted(el) {
+    startAvatarGuardTimer(el);
+  },
+  unmounted(el) {
+    clearAvatarGuardTimer(el);
+  },
+};
 
 const normalizeUrl = (value) => {
   return typeof value === "string" ? value.trim() : "";
@@ -100,6 +133,8 @@ const getAvatarStyle = (link = {}) => {
 };
 
 const onAvatarLoad = (e) => {
+  clearAvatarGuardTimer(e.target);
+  e.target.dataset.avatarCandidateIndex = "0";
   e.target.classList.add("loaded");
 };
 
@@ -108,16 +143,21 @@ const onAvatarError = (e, link) => {
   if (!img) return;
 
   const candidates = buildAvatarCandidates(link);
-  const currentSrc = img.getAttribute("src");
-  const currentIndex = candidates.indexOf(currentSrc);
-  const nextSrc = candidates[currentIndex + 1] || "";
+  const currentIndex = Number(img.dataset.avatarCandidateIndex || 0);
+  const nextIndex = currentIndex + 1;
+  const nextSrc = candidates[nextIndex] || "";
 
   if (nextSrc) {
+    img.dataset.avatarCandidateIndex = String(nextIndex);
     img.setAttribute("src", nextSrc);
+    startAvatarGuardTimer(img);
     return;
   }
 
   // 避免所有图标源都失败时头像一直透明不可见
+  clearAvatarGuardTimer(img);
+  img.dataset.avatarCandidateIndex = String(Math.max(candidates.length - 1, 0));
+  img.setAttribute("src", DEFAULT_LINK_AVATAR);
   img.classList.add("loaded");
 };
 
